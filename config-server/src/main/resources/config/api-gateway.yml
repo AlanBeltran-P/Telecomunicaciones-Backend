@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: usuarios
+              uri: lb://usuarios-service
+              predicates:
+                - Path=/api/auth/**
+            - id: catalogo
+              uri: lb://catalogo-service
+              predicates:
+                - Path=/api/planes/**

@@ -1,0 +1,20 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
+  instance:
+    # Registrarse con la IP: el hostname de la máquina puede no resolverse por DNS
+    prefer-ip-address: true
+
+# El mismo secreto en todos los servicios (al menos 32 caracteres)
+jwt:
+  secreto: ${JWT_SECRETO}
+
+spring:
+  datasource:
+    username: ${DB_USUARIO:postgres}
+    password: ${DB_CONTRASENA:postgres}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
