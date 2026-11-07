@@ -20,11 +20,17 @@ public class AuthController {
     private final AuthService authService;
     private final TokenService tokenService;
     private final CookieDeSesion cookieDeSesion;
+    private final AuthMapper authMapper;
 
-    public AuthController(AuthService authService, TokenService tokenService, CookieDeSesion cookieDeSesion) {
+    public AuthController(
+            AuthService authService,
+            TokenService tokenService,
+            CookieDeSesion cookieDeSesion,
+            AuthMapper authMapper) {
         this.authService = authService;
         this.tokenService = tokenService;
         this.cookieDeSesion = cookieDeSesion;
+        this.authMapper = authMapper;
     }
 
     @PostMapping("/login")
@@ -35,7 +41,7 @@ public class AuthController {
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(new LoginResponse(usuario.getEmail(), usuario.getRol()));
+                .body(authMapper.aLoginResponse(usuario));
     }
 
     @PostMapping("/logout")

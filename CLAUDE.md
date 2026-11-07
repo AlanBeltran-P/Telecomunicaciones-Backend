@@ -17,6 +17,11 @@ catálogo.
 - Pagos: tarjeta de débito/crédito, Mercado Pago y PayPal (manual y débito automático)
 - Notificaciones: dentro del sistema y por email
 
+## Convenciones
+- Mapeo entre entidades y DTOs con MapStruct (en todos los microservicios)
+- Cada microservicio se trabaja en su propia rama y PR
+- Los PRs los mergea Claude con merge commit, sin borrar la rama
+
 ## Decisiones caras
 - Una sola empresa (no multi-tenant)
 - Roles fijos: administrador, empleado, técnico, cliente
