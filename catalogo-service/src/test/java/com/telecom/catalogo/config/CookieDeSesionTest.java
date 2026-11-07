@@ -1,6 +1,6 @@
 package com.telecom.catalogo.config;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
@@ -14,18 +14,26 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwsHeader;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 class CookieDeSesionTest {
 
     private static final String SECRETO = "secreto-de-prueba-de-al-menos-32-caracteres";
+
+    private static final String PLAN_JSON = """
+            {"nombre": "Internet 300 MB", "precio": 15000}
+            """;
 
     @Autowired
     private MockMvc mockMvc;
@@ -34,15 +42,15 @@ class CookieDeSesionTest {
     void aceptaLaCookieDeUnAdministrador() throws Exception {
         Cookie cookie = cookieCon(token("ADMINISTRADOR", SECRETO));
 
-        mockMvc.perform(get("/api/planes").cookie(cookie))
-                .andExpect(status().isOk());
+        mockMvc.perform(crearPlanCon(cookie))
+                .andExpect(status().isCreated());
     }
 
     @Test
     void rechazaUnTokenFirmadoConOtroSecreto() throws Exception {
         Cookie cookie = cookieCon(token("ADMINISTRADOR", "otro-secreto-de-al-menos-32-caracteres!!"));
 
-        mockMvc.perform(get("/api/planes").cookie(cookie))
+        mockMvc.perform(crearPlanCon(cookie))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -50,8 +58,15 @@ class CookieDeSesionTest {
     void rechazaElTokenDeUnRolSinPermiso() throws Exception {
         Cookie cookie = cookieCon(token("CLIENTE", SECRETO));
 
-        mockMvc.perform(get("/api/planes").cookie(cookie))
+        mockMvc.perform(crearPlanCon(cookie))
                 .andExpect(status().isForbidden());
+    }
+
+    private MockHttpServletRequestBuilder crearPlanCon(Cookie cookie) {
+        return post("/api/planes")
+                .cookie(cookie)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(PLAN_JSON);
     }
 
     private Cookie cookieCon(String token) {
