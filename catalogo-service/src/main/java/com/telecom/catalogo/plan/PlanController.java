@@ -19,32 +19,32 @@ import org.springframework.web.bind.annotation.RestController;
 public class PlanController {
 
     private final PlanService planService;
+    private final PlanMapper planMapper;
 
-    public PlanController(PlanService planService) {
+    public PlanController(PlanService planService, PlanMapper planMapper) {
         this.planService = planService;
+        this.planMapper = planMapper;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PlanResponse crear(@Valid @RequestBody PlanRequest request) {
-        return PlanResponse.desde(planService.crear(request));
+        return planMapper.aPlanResponse(planService.crear(request));
     }
 
     @GetMapping
     public List<PlanResponse> listar() {
-        return planService.listarActivos().stream()
-                .map(PlanResponse::desde)
-                .toList();
+        return planMapper.aPlanResponses(planService.listarActivos());
     }
 
     @GetMapping("/{id}")
     public PlanResponse buscar(@PathVariable Long id) {
-        return PlanResponse.desde(planService.buscarActivo(id));
+        return planMapper.aPlanResponse(planService.buscarActivo(id));
     }
 
     @PutMapping("/{id}")
     public PlanResponse actualizar(@PathVariable Long id, @Valid @RequestBody PlanRequest request) {
-        return PlanResponse.desde(planService.actualizar(id, request));
+        return planMapper.aPlanResponse(planService.actualizar(id, request));
     }
 
     @DeleteMapping("/{id}")

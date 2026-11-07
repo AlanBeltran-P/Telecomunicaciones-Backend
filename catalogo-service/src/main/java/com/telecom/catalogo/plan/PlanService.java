@@ -8,15 +8,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class PlanService {
 
     private final PlanRepository planRepository;
+    private final PlanMapper planMapper;
 
-    public PlanService(PlanRepository planRepository) {
+    public PlanService(PlanRepository planRepository, PlanMapper planMapper) {
         this.planRepository = planRepository;
+        this.planMapper = planMapper;
     }
 
     @Transactional
     public Plan crear(PlanRequest request) {
-        Plan plan = new Plan(request.nombre(), request.descripcion(), request.precio());
-        return planRepository.save(plan);
+        return planRepository.save(planMapper.aPlan(request));
     }
 
     @Transactional(readOnly = true)
