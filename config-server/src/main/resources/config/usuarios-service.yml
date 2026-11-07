@@ -1,0 +1,16 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/usuarios}
+
+jwt:
+  duracion: 8h
+
+sesion:
+  cookie-segura: ${COOKIE_SEGURA:true}
+
+admin:
+  email: ${ADMIN_EMAIL}
+  contrasena: ${ADMIN_CONTRASENA}

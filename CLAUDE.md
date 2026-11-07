@@ -9,7 +9,8 @@ catálogo.
 
 ## Stack
 - Spring Boot (Java 25), microservicios con Maven multi-módulo (Maven Wrapper)
-- API Gateway + Eureka (discovery)
+- API Gateway + Eureka (discovery) + Config Server (configuración centralizada, perfil native)
+- Orden de arranque: discovery-server → config-server → resto de servicios
 - PostgreSQL (H2 para tests)
 - Solo API REST; el frontend vive en otro repo
 - Sesión: JWT en cookie HttpOnly, a través del Gateway

@@ -1,22 +1,5 @@
-server:
-  port: 8082
-
 spring:
   application:
     name: catalogo-service
-  datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/catalogo}
-    username: ${DB_USUARIO:postgres}
-    password: ${DB_CONTRASENA:postgres}
-  jpa:
-    hibernate:
-      ddl-auto: update
-    open-in-view: false
-
-jwt:
-  secreto: ${JWT_SECRETO}
-
-eureka:
-  client:
-    service-url:
-      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
+  config:
+    import: configserver:${CONFIG_SERVER_URL:http://localhost:8888}
