@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:catalogo;DB_CLOSE_DELAY=-1
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+jwt:
+  secreto: secreto-de-prueba-de-al-menos-32-caracteres
+
+eureka:
+  client:
+    enabled: false

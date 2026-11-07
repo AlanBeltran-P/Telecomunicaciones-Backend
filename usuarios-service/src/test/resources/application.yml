@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:usuarios;DB_CLOSE_DELAY=-1
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+jwt:
+  secreto: secreto-de-prueba-de-al-menos-32-caracteres
+  duracion: 1h
+
+sesion:
+  cookie-segura: false
+
+admin:
+  email: admin@telecom.com
+  contrasena: admin123
+
+eureka:
+  client:
+    enabled: false
