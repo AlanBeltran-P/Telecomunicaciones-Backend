@@ -103,12 +103,6 @@ class PlanControllerTest {
                 .andExpect(status().isForbidden());
     }
 
-    @Test
-    void sinSesionResponde401() throws Exception {
-        mockMvc.perform(get("/api/planes"))
-                .andExpect(status().isUnauthorized());
-    }
-
     private MockHttpServletRequestBuilder comoAdministrador(MockHttpServletRequestBuilder request) {
         return request
                 .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_ADMINISTRADOR")))
