@@ -46,6 +46,13 @@ class SeguridadJwtTest {
                 .contains("ROLE_TECNICO");
     }
 
+    @Test
+    void leeElIdDelUsuarioDelToken() {
+        Jwt jwt = Jwt.withTokenValue("x").header("alg", "HS256").claim("usuarioId", 42L).build();
+
+        assertThat(SeguridadJwt.usuarioId(jwt)).isEqualTo(42L);
+    }
+
     private String token(String rol, String secreto) {
         Instant ahora = Instant.now();
         JwtClaimsSet claims = JwtClaimsSet.builder()
