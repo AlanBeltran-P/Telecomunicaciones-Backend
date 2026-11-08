@@ -40,6 +40,17 @@ public class UsuarioService {
     }
 
     @Transactional(readOnly = true)
+    public Usuario buscarPorId(Long id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new UsuarioNoEncontradoException(id));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Usuario> listarTecnicosActivos() {
+        return usuarioRepository.findByRolAndActivoTrue(Rol.TECNICO);
+    }
+
+    @Transactional(readOnly = true)
     public List<Usuario> listarPersonal() {
         return usuarioRepository.findByRolNot(Rol.CLIENTE);
     }

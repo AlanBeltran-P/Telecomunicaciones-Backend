@@ -2,6 +2,7 @@ package com.telecom.usuarios.config;
 
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import com.telecom.seguridad.SeguridadJwt;
+import com.telecom.seguridad.TokenDeServicio;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,6 +43,9 @@ public class SecurityConfig {
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/api/usuarios/**").hasRole("ADMINISTRADOR")
                         .requestMatchers("/api/clientes/**").hasRole("EMPLEADO")
+                        .requestMatchers("/api/tecnicos/**").hasRole("EMPLEADO")
+                        // Solo otros microservicios; el Gateway no expone estas rutas
+                        .requestMatchers("/api/internos/**").hasRole(TokenDeServicio.ROL)
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(SeguridadJwt.tokenDesdeLaCookie());
         return http.build();

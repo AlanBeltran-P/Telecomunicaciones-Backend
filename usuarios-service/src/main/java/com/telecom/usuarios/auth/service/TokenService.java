@@ -27,6 +27,8 @@ public class TokenService {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .subject(usuario.getEmail())
                 .claim("rol", usuario.getRol().name())
+                // El id no cambia aunque se edite el email: los otros servicios identifican al usuario por acá
+                .claim("usuarioId", usuario.getId())
                 .issuedAt(ahora)
                 .expiresAt(ahora.plus(duracion))
                 .build();

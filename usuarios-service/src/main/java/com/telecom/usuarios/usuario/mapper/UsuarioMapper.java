@@ -1,5 +1,6 @@
 package com.telecom.usuarios.usuario.mapper;
 
+import com.telecom.usuarios.usuario.dto.UsuarioInternoResponse;
 import com.telecom.usuarios.usuario.dto.UsuarioResponse;
 import com.telecom.usuarios.usuario.entity.Usuario;
 import java.util.List;
@@ -11,4 +12,6 @@ public interface UsuarioMapper {
     UsuarioResponse aUsuarioResponse(Usuario usuario);
 
     List<UsuarioResponse> aUsuarioResponses(List<Usuario> usuarios);
+
+    UsuarioInternoResponse aUsuarioInternoResponse(Usuario usuario);
 }

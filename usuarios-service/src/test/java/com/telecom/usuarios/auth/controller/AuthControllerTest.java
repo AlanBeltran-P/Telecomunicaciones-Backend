@@ -38,6 +38,7 @@ class AuthControllerTest {
     void elAdministradorIniciaSesionYRecibeLaCookie() throws Exception {
         login("admin@telecom.com", "admin123")
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.email").value("admin@telecom.com"))
                 .andExpect(jsonPath("$.rol").value("ADMINISTRADOR"))
                 .andExpect(cookie().exists(CookieDeSesion.NOMBRE))
