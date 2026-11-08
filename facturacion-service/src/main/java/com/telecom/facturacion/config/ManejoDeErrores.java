@@ -1,5 +1,6 @@
 package com.telecom.facturacion.config;
 
+import com.telecom.facturacion.debito.exception.DebitoNoActivoException;
 import com.telecom.facturacion.factura.exception.FacturaNoEncontradaException;
 import com.telecom.facturacion.pago.exception.FacturaYaPagadaException;
 import com.telecom.facturacion.pago.exception.PagoRechazadoException;
@@ -12,8 +13,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ManejoDeErrores {
 
-    @ExceptionHandler(FacturaNoEncontradaException.class)
-    public ProblemDetail noEncontrada(FacturaNoEncontradaException error) {
+    @ExceptionHandler({FacturaNoEncontradaException.class, DebitoNoActivoException.class})
+    public ProblemDetail noEncontrada(RuntimeException error) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, error.getMessage());
     }
 
