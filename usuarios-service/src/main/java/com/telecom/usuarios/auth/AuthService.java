@@ -20,7 +20,8 @@ public class AuthService {
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(CredencialesInvalidasException::new);
 
-        if (!passwordEncoder.matches(contrasena, usuario.getContrasena())) {
+        boolean contrasenaCorrecta = passwordEncoder.matches(contrasena, usuario.getContrasena());
+        if (!usuario.isActivo() || !contrasenaCorrecta) {
             throw new CredencialesInvalidasException();
         }
         return usuario;

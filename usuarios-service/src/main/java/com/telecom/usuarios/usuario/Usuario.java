@@ -17,6 +17,9 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Admite vacío en la base porque la tabla ya tenía filas antes de este campo
+    private String nombre;
+
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -28,18 +31,35 @@ public class Usuario {
     @Column(nullable = false)
     private Rol rol;
 
+    // El default permite agregar la columna a una tabla que ya tiene filas
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private boolean activo = true;
+
     protected Usuario() {
         // Requerido por JPA
     }
 
-    public Usuario(String email, String contrasena, Rol rol) {
+    public Usuario(String nombre, String email, String contrasena, Rol rol) {
+        this.nombre = nombre;
         this.email = email;
         this.contrasena = contrasena;
         this.rol = rol;
     }
 
+    public void cambiarRol(Rol rol) {
+        this.rol = rol;
+    }
+
+    public void desactivar() {
+        this.activo = false;
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 
     public String getEmail() {
@@ -52,5 +72,9 @@ public class Usuario {
 
     public Rol getRol() {
         return rol;
+    }
+
+    public boolean isActivo() {
+        return activo;
     }
 }

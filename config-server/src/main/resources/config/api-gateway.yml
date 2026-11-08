@@ -10,7 +10,7 @@ spring:
             - id: usuarios
               uri: lb://usuarios-service
               predicates:
-                - Path=/api/auth/**
+                - Path=/api/auth/**,/api/usuarios/**
             - id: catalogo
               uri: lb://catalogo-service
               predicates:
