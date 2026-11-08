@@ -91,6 +91,17 @@ class PlanControllerTest {
     }
 
     @Test
+    void elPlanInexistenteSeInformaEnElIdiomaPedido() throws Exception {
+        mockMvc.perform(comoAdministrador(put("/api/planes/999")).content(PLAN_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.detail").value("No existe un plan activo con id 999"));
+
+        mockMvc.perform(comoAdministrador(put("/api/planes/999")).content(PLAN_JSON)
+                        .header("Accept-Language", "en"))
+                .andExpect(jsonPath("$.detail").value("There is no active plan with id 999"));
+    }
+
+    @Test
     void editarUnPlanInexistenteResponde404() throws Exception {
         mockMvc.perform(comoAdministrador(put("/api/planes/999")).content(PLAN_JSON))
                 .andExpect(status().isNotFound());

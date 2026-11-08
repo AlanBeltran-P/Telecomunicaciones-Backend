@@ -2,14 +2,12 @@ package com.telecom.catalogo.plan.controller;
 
 import com.telecom.catalogo.plan.dto.PlanRequest;
 import com.telecom.catalogo.plan.dto.PlanResponse;
-import com.telecom.catalogo.plan.exception.PlanNoEncontradoException;
 import com.telecom.catalogo.plan.mapper.PlanMapper;
 import com.telecom.catalogo.plan.service.PlanService;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,11 +54,5 @@ public class PlanController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void darDeBaja(@PathVariable Long id) {
         planService.darDeBaja(id);
-    }
-
-    @ExceptionHandler(PlanNoEncontradoException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public void planNoEncontrado() {
-        // Responde 404
     }
 }
