@@ -1,4 +1,4 @@
-package com.telecom.catalogo.plan;
+package com.telecom.catalogo.plan.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

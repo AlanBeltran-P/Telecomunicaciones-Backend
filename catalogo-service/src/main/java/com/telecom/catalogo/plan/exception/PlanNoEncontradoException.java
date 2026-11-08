@@ -1,4 +1,4 @@
-package com.telecom.catalogo.plan;
+package com.telecom.catalogo.plan.exception;
 
 public class PlanNoEncontradoException extends RuntimeException {
 
