@@ -55,6 +55,17 @@ public class ContratacionController {
         return contratacionMapper.aContratacionResponses(contratacionService.listarDelCliente(clienteId));
     }
 
+    // Historia 14: contrataciones dadas de baja por falta de pago
+    @GetMapping("/suspendidas")
+    public List<ContratacionResponse> listarSuspendidas() {
+        return contratacionMapper.aContratacionResponses(contratacionService.listarSuspendidas());
+    }
+
+    @PutMapping("/{id}/reactivacion")
+    public ContratacionResponse reactivar(@PathVariable Long id) {
+        return contratacionMapper.aContratacionResponse(contratacionService.reactivar(id));
+    }
+
     // Quitar un plan: la contratación queda en BAJA (no se borra)
     @PutMapping("/{id}/baja")
     public ContratacionResponse darDeBaja(@PathVariable Long id) {

@@ -6,6 +6,7 @@ import com.telecom.contrataciones.contratacion.dto.ContratarPlanRequest;
 import com.telecom.contrataciones.contratacion.entity.Contratacion;
 import com.telecom.contrataciones.contratacion.entity.EstadoContratacion;
 import com.telecom.contrataciones.contratacion.exception.ContratacionNoEncontradaException;
+import com.telecom.contrataciones.contratacion.exception.ContratacionNoSuspendidaException;
 import com.telecom.contrataciones.contratacion.exception.ContratacionYaDadaDeBajaException;
 import com.telecom.contrataciones.contratacion.exception.PlanYaContratadoException;
 import com.telecom.contrataciones.contratacion.repository.ContratacionRepository;
@@ -81,6 +82,25 @@ public class ContratacionService {
         if (seFactura) {
             contratacion.suspenderPorFaltaDePago(LocalDate.now());
         }
+        return contratacion;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Contratacion> listarSuspendidas() {
+        return contratacionRepository.findByEstadoOrderByFechaContratacionAsc(
+                EstadoContratacion.SUSPENDIDA_POR_FALTA_DE_PAGO);
+    }
+
+    // Un empleado resuelve la situación con el cliente y le devuelve el servicio.
+    // Desde hoy se vuelve a facturar; los meses sin servicio no se cobran.
+    @Transactional
+    public Contratacion reactivar(Long id) {
+        Contratacion contratacion = contratacionRepository.findById(id)
+                .orElseThrow(() -> new ContratacionNoEncontradaException(id));
+        if (!contratacion.estaSuspendida()) {
+            throw new ContratacionNoSuspendidaException(id);
+        }
+        contratacion.reactivar(LocalDate.now());
         return contratacion;
     }
 
