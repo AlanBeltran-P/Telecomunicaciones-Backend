@@ -15,3 +15,7 @@ spring:
               uri: lb://catalogo-service
               predicates:
                 - Path=/api/planes/**
+            - id: contrataciones
+              uri: lb://contrataciones-service
+              predicates:
+                - Path=/api/contrataciones/**
