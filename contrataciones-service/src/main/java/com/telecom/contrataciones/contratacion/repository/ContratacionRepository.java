@@ -10,4 +10,6 @@ public interface ContratacionRepository extends JpaRepository<Contratacion, Long
     boolean existsByClienteIdAndPlanIdAndEstadoNot(Long clienteId, Long planId, EstadoContratacion estado);
 
     List<Contratacion> findByClienteIdOrderByFechaContratacionDesc(Long clienteId);
+
+    List<Contratacion> findByEstadoOrderByFechaContratacionAsc(EstadoContratacion estado);
 }
