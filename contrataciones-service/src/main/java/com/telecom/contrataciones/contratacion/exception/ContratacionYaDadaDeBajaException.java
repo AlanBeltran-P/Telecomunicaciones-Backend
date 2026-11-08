@@ -1,8 +1,12 @@
 package com.telecom.contrataciones.contratacion.exception;
 
-public class ContratacionYaDadaDeBajaException extends RuntimeException {
+import com.telecom.errores.ErrorDeNegocio;
+import org.springframework.http.HttpStatus;
+
+// Mensaje: "contratacion.ya-dada-de-baja" en messages.properties / messages_en.properties
+public class ContratacionYaDadaDeBajaException extends ErrorDeNegocio {
 
     public ContratacionYaDadaDeBajaException(Long id) {
-        super("La contratación " + id + " ya estaba dada de baja");
+        super(HttpStatus.CONFLICT, "contratacion.ya-dada-de-baja", id);
     }
 }

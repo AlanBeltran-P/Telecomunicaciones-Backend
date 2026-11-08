@@ -92,6 +92,18 @@ class ContratacionControllerTest {
     }
 
     @Test
+    void enInglesElErrorSaleEnIngles() throws Exception {
+        contratar(1L);
+
+        mockMvc.perform(post("/api/contrataciones").with(comoCliente())
+                        .header("Accept-Language", "en")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(cuerpo(1L)))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.detail").value("You already have the plan Internet 300 MB"));
+    }
+
+    @Test
     void unPlanInexistenteODadoDeBajaResponde404() throws Exception {
         when(catalogoClient.buscarPlan(99L)).thenThrow(new PlanNoDisponibleException(99L));
 
