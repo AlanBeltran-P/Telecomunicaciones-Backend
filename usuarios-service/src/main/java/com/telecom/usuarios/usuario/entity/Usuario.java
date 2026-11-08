@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "usuarios")
@@ -41,6 +42,9 @@ public class Usuario {
 
     private String telefono;
 
+    // Para los reportes de altas. Vacía en los usuarios creados antes de agregar este campo
+    private LocalDate fechaAlta;
+
     protected Usuario() {
         // Requerido por JPA
     }
@@ -57,6 +61,7 @@ public class Usuario {
         this.rol = rol;
         this.dni = dni;
         this.telefono = telefono;
+        this.fechaAlta = LocalDate.now();
     }
 
     public void actualizarDatos(String nombre, String email, String dni, String telefono) {
@@ -104,5 +109,9 @@ public class Usuario {
 
     public String getTelefono() {
         return telefono;
+    }
+
+    public LocalDate getFechaAlta() {
+        return fechaAlta;
     }
 }

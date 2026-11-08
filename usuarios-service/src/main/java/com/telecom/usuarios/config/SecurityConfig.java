@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -41,6 +42,8 @@ public class SecurityConfig {
                 .sessionManagement(sesion -> sesion.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/error").permitAll()
+                        // Va antes que /api/usuarios/**: el perfil propio lo ve cualquier rol
+                        .requestMatchers(HttpMethod.GET, "/api/usuarios/yo").authenticated()
                         .requestMatchers("/api/usuarios/**").hasRole("ADMINISTRADOR")
                         .requestMatchers("/api/clientes/**").hasRole("EMPLEADO")
                         .requestMatchers("/api/tecnicos/**").hasRole("EMPLEADO")
