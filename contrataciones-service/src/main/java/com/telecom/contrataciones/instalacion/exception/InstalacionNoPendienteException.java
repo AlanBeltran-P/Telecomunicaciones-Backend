@@ -1,8 +1,12 @@
 package com.telecom.contrataciones.instalacion.exception;
 
-public class InstalacionNoPendienteException extends RuntimeException {
+import com.telecom.errores.ErrorDeNegocio;
+import org.springframework.http.HttpStatus;
+
+// Mensaje: "instalacion.no-pendiente" en messages.properties / messages_en.properties
+public class InstalacionNoPendienteException extends ErrorDeNegocio {
 
     public InstalacionNoPendienteException(Long contratacionId) {
-        super("La contratación " + contratacionId + " no tiene una instalación pendiente");
+        super(HttpStatus.CONFLICT, "instalacion.no-pendiente", contratacionId);
     }
 }

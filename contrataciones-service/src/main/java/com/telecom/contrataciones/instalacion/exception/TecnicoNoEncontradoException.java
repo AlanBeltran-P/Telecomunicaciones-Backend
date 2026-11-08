@@ -1,8 +1,12 @@
 package com.telecom.contrataciones.instalacion.exception;
 
-public class TecnicoNoEncontradoException extends RuntimeException {
+import com.telecom.errores.ErrorDeNegocio;
+import org.springframework.http.HttpStatus;
+
+// Mensaje: "tecnico.no-encontrado" en messages.properties / messages_en.properties
+public class TecnicoNoEncontradoException extends ErrorDeNegocio {
 
     public TecnicoNoEncontradoException(Long tecnicoId) {
-        super("No existe un técnico activo con id " + tecnicoId);
+        super(HttpStatus.NOT_FOUND, "tecnico.no-encontrado", tecnicoId);
     }
 }

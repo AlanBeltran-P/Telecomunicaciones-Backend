@@ -1,8 +1,12 @@
 package com.telecom.contrataciones.contratacion.exception;
 
-public class UsuariosNoDisponibleException extends RuntimeException {
+import com.telecom.errores.ErrorDeNegocio;
+import org.springframework.http.HttpStatus;
+
+// Mensaje: "usuarios.no-disponible" en messages.properties / messages_en.properties
+public class UsuariosNoDisponibleException extends ErrorDeNegocio {
 
     public UsuariosNoDisponibleException(Throwable causa) {
-        super("No se pudo consultar los datos del cliente. Probá de nuevo en unos minutos", causa);
+        super(HttpStatus.SERVICE_UNAVAILABLE, "usuarios.no-disponible", causa);
     }
 }

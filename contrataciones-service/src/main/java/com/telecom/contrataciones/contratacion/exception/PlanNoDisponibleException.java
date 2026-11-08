@@ -1,8 +1,12 @@
 package com.telecom.contrataciones.contratacion.exception;
 
-public class PlanNoDisponibleException extends RuntimeException {
+import com.telecom.errores.ErrorDeNegocio;
+import org.springframework.http.HttpStatus;
+
+// Mensaje: "plan.no-disponible" en messages.properties / messages_en.properties
+public class PlanNoDisponibleException extends ErrorDeNegocio {
 
     public PlanNoDisponibleException(Long planId) {
-        super("El plan " + planId + " no existe o ya no está disponible");
+        super(HttpStatus.NOT_FOUND, "plan.no-disponible", planId);
     }
 }

@@ -1,4 +1,8 @@
 spring:
+  web:
+    locale: es
+  messages:
+    fallback-to-system-locale: false
   cloud:
     config:
       enabled: false
