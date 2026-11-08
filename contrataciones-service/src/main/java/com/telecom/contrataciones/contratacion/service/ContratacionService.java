@@ -62,10 +62,26 @@ public class ContratacionService {
         return contratacionRepository.findByClienteIdOrderByFechaContratacionDesc(clienteId);
     }
 
-    // Se factura desde que se contrata (aunque no esté instalada) hasta que se da de baja
+    // Se factura desde que se contrata (aunque no esté instalada); no se facturan las dadas de baja
+    // ni las suspendidas por falta de pago
     @Transactional(readOnly = true)
     public List<Contratacion> listarFacturables() {
-        return contratacionRepository.findByEstadoNot(EstadoContratacion.BAJA);
+        return contratacionRepository.findByEstadoIn(
+                List.of(EstadoContratacion.PENDIENTE_INSTALACION, EstadoContratacion.ACTIVA));
+    }
+
+    // La pide facturacion-service cuando una factura lleva 2 semanas vencida.
+    // Si ya estaba suspendida o dada de baja, no hace nada (se puede llamar más de una vez).
+    @Transactional
+    public Contratacion suspenderPorFaltaDePago(Long id) {
+        Contratacion contratacion = contratacionRepository.findById(id)
+                .orElseThrow(() -> new ContratacionNoEncontradaException(id));
+        boolean seFactura = contratacion.getEstado() == EstadoContratacion.ACTIVA
+                || contratacion.estaPendienteDeInstalacion();
+        if (seFactura) {
+            contratacion.suspenderPorFaltaDePago(LocalDate.now());
+        }
+        return contratacion;
     }
 
     @Transactional
