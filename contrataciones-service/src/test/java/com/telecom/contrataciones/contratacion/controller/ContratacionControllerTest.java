@@ -71,7 +71,7 @@ class ContratacionControllerTest {
 
         Contratacion guardada = contratacionRepository.findAll().getFirst();
         assertThat(guardada.getClienteEmail()).isEqualTo(CLIENTE);
-        assertThat(guardada.getDni()).isEqualTo("30123456");
+        assertThat(guardada.getDireccion()).isEqualTo("Av. Siempre Viva 742");
     }
 
     @Test
@@ -105,9 +105,9 @@ class ContratacionControllerTest {
     }
 
     @Test
-    void conUnDniInvalidoResponde400() throws Exception {
+    void sinDireccionResponde400() throws Exception {
         String cuerpo = """
-                {"planId": 1, "direccion": "Av. Siempre Viva 742", "dni": "ABC", "telefono": "11 4444-5555"}
+                {"planId": 1, "direccion": ""}
                 """;
         mockMvc.perform(post("/api/contrataciones").with(comoCliente())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -140,7 +140,7 @@ class ContratacionControllerTest {
 
     private String cuerpo(Long planId) {
         return """
-                {"planId": %d, "direccion": "Av. Siempre Viva 742", "dni": "30123456", "telefono": "11 4444-5555"}
+                {"planId": %d, "direccion": "Av. Siempre Viva 742"}
                 """.formatted(planId);
     }
 

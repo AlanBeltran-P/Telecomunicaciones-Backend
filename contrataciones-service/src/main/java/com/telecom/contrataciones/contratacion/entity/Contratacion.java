@@ -35,12 +35,6 @@ public class Contratacion {
     @Column(nullable = false)
     private String direccion;
 
-    @Column(nullable = false)
-    private String dni;
-
-    @Column(nullable = false)
-    private String telefono;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EstadoContratacion estado;
@@ -59,16 +53,12 @@ public class Contratacion {
             String planNombre,
             BigDecimal precioMensual,
             String direccion,
-            String dni,
-            String telefono,
             LocalDate fechaContratacion) {
         this.clienteEmail = clienteEmail;
         this.planId = planId;
         this.planNombre = planNombre;
         this.precioMensual = precioMensual;
         this.direccion = direccion;
-        this.dni = dni;
-        this.telefono = telefono;
         this.fechaContratacion = fechaContratacion;
         this.estado = EstadoContratacion.PENDIENTE_INSTALACION;
     }
@@ -95,14 +85,6 @@ public class Contratacion {
 
     public String getDireccion() {
         return direccion;
-    }
-
-    public String getDni() {
-        return dni;
-    }
-
-    public String getTelefono() {
-        return telefono;
     }
 
     public EstadoContratacion getEstado() {
