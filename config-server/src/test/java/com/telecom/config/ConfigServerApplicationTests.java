@@ -24,12 +24,14 @@ class ConfigServerApplicationTests {
 
         assertThat(configuracion).contains("lb://usuarios-service", "/api/auth/**", "/api/usuarios/**");
         assertThat(configuracion).contains("lb://catalogo-service", "/api/planes/**");
+        assertThat(configuracion).contains("lb://contrataciones-service", "/api/contrataciones/**");
     }
 
     @Test
     void cadaServicioUsaSuPropiaBaseDeDatos() {
         assertThat(configuracionDe("usuarios-service")).contains("5432/usuarios");
         assertThat(configuracionDe("catalogo-service")).contains("5432/catalogo");
+        assertThat(configuracionDe("contrataciones-service")).contains("5432/contrataciones");
     }
 
     private String configuracionDe(String servicio) {
