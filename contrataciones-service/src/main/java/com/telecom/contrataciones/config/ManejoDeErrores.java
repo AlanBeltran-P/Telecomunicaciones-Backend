@@ -1,8 +1,12 @@
 package com.telecom.contrataciones.config;
 
 import com.telecom.contrataciones.contratacion.exception.CatalogoNoDisponibleException;
+import com.telecom.contrataciones.contratacion.exception.ClienteNoEncontradoException;
+import com.telecom.contrataciones.contratacion.exception.ContratacionNoEncontradaException;
+import com.telecom.contrataciones.contratacion.exception.ContratacionYaDadaDeBajaException;
 import com.telecom.contrataciones.contratacion.exception.PlanNoDisponibleException;
 import com.telecom.contrataciones.contratacion.exception.PlanYaContratadoException;
+import com.telecom.contrataciones.contratacion.exception.UsuariosNoDisponibleException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,18 +16,22 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ManejoDeErrores {
 
-    @ExceptionHandler(PlanNoDisponibleException.class)
-    public ProblemDetail planNoDisponible(PlanNoDisponibleException error) {
+    @ExceptionHandler({
+            PlanNoDisponibleException.class,
+            ClienteNoEncontradoException.class,
+            ContratacionNoEncontradaException.class})
+    public ProblemDetail noEncontrado(RuntimeException error) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, error.getMessage());
     }
 
-    @ExceptionHandler(PlanYaContratadoException.class)
-    public ProblemDetail planYaContratado(PlanYaContratadoException error) {
+    @ExceptionHandler({PlanYaContratadoException.class, ContratacionYaDadaDeBajaException.class})
+    public ProblemDetail conflicto(RuntimeException error) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, error.getMessage());
     }
 
-    @ExceptionHandler(CatalogoNoDisponibleException.class)
-    public ProblemDetail catalogoNoDisponible(CatalogoNoDisponibleException error) {
+    // Otro microservicio no respondió
+    @ExceptionHandler({CatalogoNoDisponibleException.class, UsuariosNoDisponibleException.class})
+    public ProblemDetail servicioNoDisponible(RuntimeException error) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.SERVICE_UNAVAILABLE, error.getMessage());
     }
 }

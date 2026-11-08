@@ -16,7 +16,7 @@ public class CatalogoClient {
     private final RestClient restClient;
 
     public CatalogoClient(@LoadBalanced RestClient.Builder restClientBuilder) {
-        this.restClient = restClientBuilder.baseUrl("http://catalogo-service").build();
+        this.restClient = restClientBuilder.clone().baseUrl("http://catalogo-service").build();
     }
 
     // Solo devuelve planes activos: catalogo-service responde 404 para los dados de baja
