@@ -1,0 +1,6 @@
+spring:
+  web:
+    # Idioma si el pedido no trae Accept-Language (o trae uno que no soportamos)
+    locale: es
+  messages:
+    fallback-to-system-locale: false

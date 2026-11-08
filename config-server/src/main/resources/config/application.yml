@@ -11,6 +11,12 @@ jwt:
   secreto: ${JWT_SECRETO}
 
 spring:
+  web:
+    # Idioma de los mensajes si el pedido no trae Accept-Language (o trae uno que no soportamos)
+    locale: es
+  messages:
+    # Sin esto, en un servidor en inglés se usaría messages_en en lugar del español por defecto
+    fallback-to-system-locale: false
   datasource:
     username: ${DB_USUARIO:postgres}
     password: ${DB_CONTRASENA:postgres}

@@ -21,6 +21,7 @@
         <module>discovery-server</module>
         <module>config-server</module>
         <module>seguridad-comun</module>
+        <module>errores-comun</module>
         <module>api-gateway</module>
         <module>usuarios-service</module>
         <module>catalogo-service</module>
@@ -51,6 +52,11 @@
             <dependency>
                 <groupId>com.telecom</groupId>
                 <artifactId>seguridad-comun</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.telecom</groupId>
+                <artifactId>errores-comun</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
