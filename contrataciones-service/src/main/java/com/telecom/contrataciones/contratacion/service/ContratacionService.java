@@ -33,8 +33,6 @@ public class ContratacionService {
                 plan.nombre(),
                 plan.precio(),
                 request.direccion(),
-                request.dni(),
-                request.telefono(),
                 LocalDate.now());
         return contratacionRepository.save(contratacion);
     }

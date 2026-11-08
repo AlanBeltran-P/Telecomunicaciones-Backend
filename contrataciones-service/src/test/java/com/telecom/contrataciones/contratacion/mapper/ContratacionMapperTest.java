@@ -18,7 +18,7 @@ class ContratacionMapperTest {
     void laRespuestaLlevaElPlanElPrecioYElEstado() {
         Contratacion contratacion = new Contratacion(
                 "maria@mail.com", 1L, "Internet 300 MB", new BigDecimal("15000.50"),
-                "Av. Siempre Viva 742", "30123456", "11 4444-5555", LocalDate.of(2026, 11, 7));
+                "Av. Siempre Viva 742", LocalDate.of(2026, 11, 7));
 
         ContratacionResponse respuesta = contratacionMapper.aContratacionResponse(contratacion);
 
