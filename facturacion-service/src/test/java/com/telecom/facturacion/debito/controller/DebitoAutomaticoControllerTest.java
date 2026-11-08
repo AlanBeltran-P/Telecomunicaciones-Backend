@@ -55,6 +55,14 @@ class DebitoAutomaticoControllerTest {
     }
 
     @Test
+    void sinDebitoActivoElMensajeSaleEnIngles() throws Exception {
+        mockMvc.perform(get("/api/facturas/debito-automatico").with(comoCliente())
+                        .header("Accept-Language", "en"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.detail").value("You do not have automatic debit enabled"));
+    }
+
+    @Test
     void elClienteDesactivaElDebitoAutomatico() throws Exception {
         activar("PAYPAL");
 

@@ -1,8 +1,12 @@
 package com.telecom.facturacion.notificacion.exception;
 
-public class NotificacionNoEncontradaException extends RuntimeException {
+import com.telecom.errores.ErrorDeNegocio;
+import org.springframework.http.HttpStatus;
+
+// Mensaje: "notificacion.no-encontrada" en messages.properties / messages_en.properties
+public class NotificacionNoEncontradaException extends ErrorDeNegocio {
 
     public NotificacionNoEncontradaException(Long id) {
-        super("No existe la notificación " + id);
+        super(HttpStatus.NOT_FOUND, "notificacion.no-encontrada", id);
     }
 }

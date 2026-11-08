@@ -1,8 +1,12 @@
 package com.telecom.facturacion.pago.exception;
 
-public class PagoRechazadoException extends RuntimeException {
+import com.telecom.errores.ErrorDeNegocio;
+import org.springframework.http.HttpStatus;
+
+// Mensaje: "pago.rechazado" en messages.properties / messages_en.properties
+public class PagoRechazadoException extends ErrorDeNegocio {
 
     public PagoRechazadoException(Long facturaId) {
-        super("El pago de la factura " + facturaId + " fue rechazado. Probá con otro medio de pago");
+        super(HttpStatus.PAYMENT_REQUIRED, "pago.rechazado", facturaId);
     }
 }

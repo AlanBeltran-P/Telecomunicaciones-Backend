@@ -59,7 +59,9 @@ class PagoControllerTest {
         Factura factura = guardarFactura(CLIENTE_ID);
 
         pagar(factura.getId(), "TARJETA_CREDITO", "rechazado", CLIENTE_ID)
-                .andExpect(status().isPaymentRequired());
+                .andExpect(status().isPaymentRequired())
+                .andExpect(jsonPath("$.detail").value(
+                        "El pago de la factura " + factura.getId() + " fue rechazado. Probá con otro medio de pago"));
 
         assertThat(facturaRepository.findById(factura.getId()).orElseThrow().getEstado())
                 .isEqualTo(EstadoFactura.PENDIENTE);
