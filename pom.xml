@@ -25,6 +25,7 @@
         <module>usuarios-service</module>
         <module>catalogo-service</module>
         <module>contrataciones-service</module>
+        <module>facturacion-service</module>
     </modules>
 
     <properties>
