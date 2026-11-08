@@ -79,14 +79,14 @@ public class UsuarioService {
 
     private void validarRolDelPersonal(Rol rol) {
         if (!ROLES_DEL_PERSONAL.contains(rol)) {
-            throw new OperacionNoPermitidaException("El rol " + rol + " no se asigna desde la gestión de usuarios");
+            throw new OperacionNoPermitidaException("rol.no-asignable", rol);
         }
     }
 
     // Evita que el sistema se quede sin administrador por un error
     private void validarQueNoEsElMismoAdministrador(Usuario usuario, String emailDelAdministrador) {
         if (usuario.getEmail().equals(emailDelAdministrador)) {
-            throw new OperacionNoPermitidaException("Un administrador no puede cambiar su propio rol ni desactivarse");
+            throw new OperacionNoPermitidaException("administrador.sobre-si-mismo");
         }
     }
 }

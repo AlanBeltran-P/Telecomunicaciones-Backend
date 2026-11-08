@@ -1,8 +1,12 @@
 package com.telecom.usuarios.cliente.exception;
 
-public class DniEnUsoException extends RuntimeException {
+import com.telecom.errores.ErrorDeNegocio;
+import org.springframework.http.HttpStatus;
+
+// Mensaje: "dni.en-uso" en messages.properties / messages_en.properties
+public class DniEnUsoException extends ErrorDeNegocio {
 
     public DniEnUsoException(String dni) {
-        super("El DNI " + dni + " ya está registrado");
+        super(HttpStatus.CONFLICT, "dni.en-uso", dni);
     }
 }

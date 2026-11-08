@@ -1,8 +1,12 @@
 package com.telecom.usuarios.auth.exception;
 
-public class CredencialesInvalidasException extends RuntimeException {
+import com.telecom.errores.ErrorDeNegocio;
+import org.springframework.http.HttpStatus;
+
+// Mensaje: "credenciales.invalidas" en messages.properties / messages_en.properties
+public class CredencialesInvalidasException extends ErrorDeNegocio {
 
     public CredencialesInvalidasException() {
-        super("Email o contraseña incorrectos");
+        super(HttpStatus.UNAUTHORIZED, "credenciales.invalidas");
     }
 }

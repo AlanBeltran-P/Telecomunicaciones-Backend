@@ -1,8 +1,12 @@
 package com.telecom.usuarios.usuario.exception;
 
-public class EmailEnUsoException extends RuntimeException {
+import com.telecom.errores.ErrorDeNegocio;
+import org.springframework.http.HttpStatus;
+
+// Mensaje: "email.en-uso" en messages.properties / messages_en.properties
+public class EmailEnUsoException extends ErrorDeNegocio {
 
     public EmailEnUsoException(String email) {
-        super("El email " + email + " ya está en uso");
+        super(HttpStatus.CONFLICT, "email.en-uso", email);
     }
 }
