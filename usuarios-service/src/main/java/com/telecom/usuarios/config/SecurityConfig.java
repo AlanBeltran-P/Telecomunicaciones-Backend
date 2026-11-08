@@ -41,6 +41,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/api/usuarios/**").hasRole("ADMINISTRADOR")
+                        .requestMatchers("/api/clientes/**").hasRole("EMPLEADO")
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(SeguridadJwt.tokenDesdeLaCookie());
         return http.build();

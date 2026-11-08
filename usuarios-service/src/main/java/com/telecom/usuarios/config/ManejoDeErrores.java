@@ -1,6 +1,8 @@
 package com.telecom.usuarios.config;
 
 import com.telecom.usuarios.auth.exception.CredencialesInvalidasException;
+import com.telecom.usuarios.cliente.exception.ClienteNoEncontradoException;
+import com.telecom.usuarios.cliente.exception.DniEnUsoException;
 import com.telecom.usuarios.usuario.exception.EmailEnUsoException;
 import com.telecom.usuarios.usuario.exception.OperacionNoPermitidaException;
 import com.telecom.usuarios.usuario.exception.UsuarioNoEncontradoException;
@@ -31,6 +33,16 @@ public class ManejoDeErrores {
 
     @ExceptionHandler(UsuarioNoEncontradoException.class)
     public ProblemDetail usuarioNoEncontrado(UsuarioNoEncontradoException error) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, error.getMessage());
+    }
+
+    @ExceptionHandler(DniEnUsoException.class)
+    public ProblemDetail dniEnUso(DniEnUsoException error) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, error.getMessage());
+    }
+
+    @ExceptionHandler(ClienteNoEncontradoException.class)
+    public ProblemDetail clienteNoEncontrado(ClienteNoEncontradoException error) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, error.getMessage());
     }
 }
