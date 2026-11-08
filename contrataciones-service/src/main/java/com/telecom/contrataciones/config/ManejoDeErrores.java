@@ -7,6 +7,8 @@ import com.telecom.contrataciones.contratacion.exception.ContratacionYaDadaDeBaj
 import com.telecom.contrataciones.contratacion.exception.PlanNoDisponibleException;
 import com.telecom.contrataciones.contratacion.exception.PlanYaContratadoException;
 import com.telecom.contrataciones.contratacion.exception.UsuariosNoDisponibleException;
+import com.telecom.contrataciones.instalacion.exception.InstalacionNoPendienteException;
+import com.telecom.contrataciones.instalacion.exception.TecnicoNoEncontradoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,12 +21,16 @@ public class ManejoDeErrores {
     @ExceptionHandler({
             PlanNoDisponibleException.class,
             ClienteNoEncontradoException.class,
-            ContratacionNoEncontradaException.class})
+            ContratacionNoEncontradaException.class,
+            TecnicoNoEncontradoException.class})
     public ProblemDetail noEncontrado(RuntimeException error) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, error.getMessage());
     }
 
-    @ExceptionHandler({PlanYaContratadoException.class, ContratacionYaDadaDeBajaException.class})
+    @ExceptionHandler({
+            PlanYaContratadoException.class,
+            ContratacionYaDadaDeBajaException.class,
+            InstalacionNoPendienteException.class})
     public ProblemDetail conflicto(RuntimeException error) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, error.getMessage());
     }

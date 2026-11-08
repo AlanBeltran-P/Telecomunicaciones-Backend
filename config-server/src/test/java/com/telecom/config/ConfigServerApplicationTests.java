@@ -25,7 +25,7 @@ class ConfigServerApplicationTests {
         assertThat(configuracion).contains("lb://usuarios-service", "/api/auth/**", "/api/usuarios/**", "/api/clientes/**", "/api/tecnicos/**");
         assertThat(configuracion).doesNotContain("/api/internos");
         assertThat(configuracion).contains("lb://catalogo-service", "/api/planes/**");
-        assertThat(configuracion).contains("lb://contrataciones-service", "/api/contrataciones/**");
+        assertThat(configuracion).contains("lb://contrataciones-service", "/api/contrataciones/**", "/api/instalaciones/**");
     }
 
     @Test

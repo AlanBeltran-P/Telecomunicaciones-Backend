@@ -46,6 +46,13 @@ public class Contratacion {
 
     private LocalDate fechaBaja;
 
+    // Técnico que hace la instalación: lo elige un empleado
+    private Long tecnicoId;
+
+    private String tecnicoNombre;
+
+    private LocalDate fechaInstalacion;
+
     protected Contratacion() {
         // Requerido por JPA
     }
@@ -73,6 +80,16 @@ public class Contratacion {
 
     public boolean estaDadaDeBaja() {
         return estado == EstadoContratacion.BAJA;
+    }
+
+    public boolean estaPendienteDeInstalacion() {
+        return estado == EstadoContratacion.PENDIENTE_INSTALACION;
+    }
+
+    // Mientras siga pendiente, el empleado puede cambiar de técnico
+    public void asignarTecnico(Long tecnicoId, String tecnicoNombre) {
+        this.tecnicoId = tecnicoId;
+        this.tecnicoNombre = tecnicoNombre;
     }
 
     public Long getId() {
@@ -109,5 +126,17 @@ public class Contratacion {
 
     public LocalDate getFechaBaja() {
         return fechaBaja;
+    }
+
+    public Long getTecnicoId() {
+        return tecnicoId;
+    }
+
+    public String getTecnicoNombre() {
+        return tecnicoNombre;
+    }
+
+    public LocalDate getFechaInstalacion() {
+        return fechaInstalacion;
     }
 }

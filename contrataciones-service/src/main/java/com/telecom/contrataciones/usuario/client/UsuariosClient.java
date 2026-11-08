@@ -2,6 +2,7 @@ package com.telecom.contrataciones.usuario.client;
 
 import com.telecom.contrataciones.contratacion.exception.ClienteNoEncontradoException;
 import com.telecom.contrataciones.contratacion.exception.UsuariosNoDisponibleException;
+import com.telecom.contrataciones.instalacion.exception.TecnicoNoEncontradoException;
 import com.telecom.contrataciones.usuario.dto.UsuarioDelSistema;
 import com.telecom.seguridad.TokenDeServicio;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +31,14 @@ public class UsuariosClient {
         UsuarioDelSistema usuario = buscar(clienteId, new ClienteNoEncontradoException(clienteId));
         if (!usuario.esClienteActivo()) {
             throw new ClienteNoEncontradoException(clienteId);
+        }
+        return usuario;
+    }
+
+    public UsuarioDelSistema buscarTecnicoActivo(Long tecnicoId) {
+        UsuarioDelSistema usuario = buscar(tecnicoId, new TecnicoNoEncontradoException(tecnicoId));
+        if (!usuario.esTecnicoActivo()) {
+            throw new TecnicoNoEncontradoException(tecnicoId);
         }
         return usuario;
     }

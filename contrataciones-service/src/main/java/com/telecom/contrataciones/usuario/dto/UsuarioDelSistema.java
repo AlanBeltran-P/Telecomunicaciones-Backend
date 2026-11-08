@@ -6,4 +6,8 @@ public record UsuarioDelSistema(Long id, String nombre, String email, String rol
     public boolean esClienteActivo() {
         return activo && "CLIENTE".equals(rol);
     }
+
+    public boolean esTecnicoActivo() {
+        return activo && "TECNICO".equals(rol);
+    }
 }
