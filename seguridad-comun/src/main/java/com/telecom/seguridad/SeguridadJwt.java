@@ -6,6 +6,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
@@ -27,6 +28,12 @@ public final class SeguridadJwt {
 
     public static JwtDecoder decodificador(String secreto) {
         return NimbusJwtDecoder.withSecretKey(clave(secreto)).build();
+    }
+
+    // Id del usuario que inició sesión (lo agrega usuarios-service al generar el token)
+    public static Long usuarioId(Jwt jwt) {
+        Number id = jwt.getClaim("usuarioId");
+        return id.longValue();
     }
 
     // Uso: http.oauth2ResourceServer(SeguridadJwt.tokenDesdeLaCookie())
