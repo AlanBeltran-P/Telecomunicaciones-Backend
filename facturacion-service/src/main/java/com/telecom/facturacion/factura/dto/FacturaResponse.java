@@ -1,6 +1,7 @@
 package com.telecom.facturacion.factura.dto;
 
 import com.telecom.facturacion.factura.entity.EstadoFactura;
+import com.telecom.facturacion.factura.entity.MedioDePago;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -13,5 +14,7 @@ public record FacturaResponse(
         LocalDate periodoHasta,
         LocalDate fechaEmision,
         LocalDate fechaVencimiento,
-        EstadoFactura estado) {
+        EstadoFactura estado,
+        LocalDate fechaPago,
+        MedioDePago medioDePago) {
 }
