@@ -1,5 +1,8 @@
-package com.telecom.catalogo.plan;
+package com.telecom.catalogo.plan.mapper;
 
+import com.telecom.catalogo.plan.dto.PlanRequest;
+import com.telecom.catalogo.plan.dto.PlanResponse;
+import com.telecom.catalogo.plan.entity.Plan;
 import java.util.List;
 import org.mapstruct.Mapper;
 

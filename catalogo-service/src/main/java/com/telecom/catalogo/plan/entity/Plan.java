@@ -1,4 +1,4 @@
-package com.telecom.catalogo.plan;
+package com.telecom.catalogo.plan.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

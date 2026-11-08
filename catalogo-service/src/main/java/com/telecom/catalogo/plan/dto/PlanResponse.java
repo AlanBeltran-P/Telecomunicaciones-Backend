@@ -1,4 +1,4 @@
-package com.telecom.catalogo.plan;
+package com.telecom.catalogo.plan.dto;
 
 import java.math.BigDecimal;
 

@@ -1,5 +1,6 @@
-package com.telecom.catalogo.plan;
+package com.telecom.catalogo.plan.repository;
 
+import com.telecom.catalogo.plan.entity.Plan;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-package com.telecom.catalogo.plan;
+package com.telecom.catalogo.plan.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -6,6 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.telecom.catalogo.config.CookieTokenResolver;
+import com.telecom.catalogo.plan.entity.Plan;
+import com.telecom.catalogo.plan.repository.PlanRepository;
 import jakarta.servlet.http.Cookie;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;

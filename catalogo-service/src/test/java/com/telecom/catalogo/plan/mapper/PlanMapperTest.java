@@ -1,7 +1,10 @@
-package com.telecom.catalogo.plan;
+package com.telecom.catalogo.plan.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.telecom.catalogo.plan.dto.PlanRequest;
+import com.telecom.catalogo.plan.dto.PlanResponse;
+import com.telecom.catalogo.plan.entity.Plan;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.Test;
