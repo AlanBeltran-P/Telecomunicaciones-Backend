@@ -35,15 +35,35 @@ public class Usuario {
     @Column(nullable = false, columnDefinition = "boolean default true")
     private boolean activo = true;
 
+    // Solo para clientes: el personal no tiene DNI ni teléfono
+    @Column(unique = true)
+    private String dni;
+
+    private String telefono;
+
     protected Usuario() {
         // Requerido por JPA
     }
 
+    // Personal (administrador, empleado, técnico)
     public Usuario(String nombre, String email, String contrasena, Rol rol) {
+        this(nombre, email, contrasena, rol, null, null);
+    }
+
+    public Usuario(String nombre, String email, String contrasena, Rol rol, String dni, String telefono) {
         this.nombre = nombre;
         this.email = email;
         this.contrasena = contrasena;
         this.rol = rol;
+        this.dni = dni;
+        this.telefono = telefono;
+    }
+
+    public void actualizarDatos(String nombre, String email, String dni, String telefono) {
+        this.nombre = nombre;
+        this.email = email;
+        this.dni = dni;
+        this.telefono = telefono;
     }
 
     public void cambiarRol(Rol rol) {
@@ -76,5 +96,13 @@ public class Usuario {
 
     public boolean isActivo() {
         return activo;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public String getTelefono() {
+        return telefono;
     }
 }

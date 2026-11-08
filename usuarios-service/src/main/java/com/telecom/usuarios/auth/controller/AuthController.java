@@ -2,13 +2,13 @@ package com.telecom.usuarios.auth.controller;
 
 import com.telecom.usuarios.auth.dto.LoginRequest;
 import com.telecom.usuarios.auth.dto.LoginResponse;
-import com.telecom.usuarios.auth.dto.RegistroRequest;
 import com.telecom.usuarios.auth.mapper.AuthMapper;
 import com.telecom.usuarios.auth.service.AuthService;
 import com.telecom.usuarios.auth.service.TokenService;
+import com.telecom.usuarios.cliente.dto.CrearClienteRequest;
+import com.telecom.usuarios.cliente.service.ClienteService;
 import com.telecom.usuarios.config.CookieDeSesion;
 import com.telecom.usuarios.usuario.entity.Usuario;
-import com.telecom.usuarios.usuario.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,19 +24,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
-    private final UsuarioService usuarioService;
+    private final ClienteService clienteService;
     private final TokenService tokenService;
     private final CookieDeSesion cookieDeSesion;
     private final AuthMapper authMapper;
 
     public AuthController(
             AuthService authService,
-            UsuarioService usuarioService,
+            ClienteService clienteService,
             TokenService tokenService,
             CookieDeSesion cookieDeSesion,
             AuthMapper authMapper) {
         this.authService = authService;
-        this.usuarioService = usuarioService;
+        this.clienteService = clienteService;
         this.tokenService = tokenService;
         this.cookieDeSesion = cookieDeSesion;
         this.authMapper = authMapper;
@@ -50,8 +50,8 @@ public class AuthController {
 
     // El cliente queda con la sesión iniciada para seguir directo a contratar un plan
     @PostMapping("/registro")
-    public ResponseEntity<LoginResponse> registro(@Valid @RequestBody RegistroRequest request) {
-        Usuario cliente = usuarioService.registrarCliente(request.nombre(), request.email(), request.contrasena());
+    public ResponseEntity<LoginResponse> registro(@Valid @RequestBody CrearClienteRequest request) {
+        Usuario cliente = clienteService.crear(request);
         return conSesionIniciada(cliente, HttpStatus.CREATED);
     }
 

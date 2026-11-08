@@ -32,7 +32,7 @@ class RegistroTest {
 
     @Test
     void unVisitanteSeRegistraYQuedaConLaSesionIniciada() throws Exception {
-        registrar("María López", "maria@mail.com", "clave-segura")
+        registrar("María López", "maria@mail.com", "clave-segura", "30111222")
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.email").value("maria@mail.com"))
                 .andExpect(jsonPath("$.rol").value("CLIENTE"))
@@ -42,7 +42,7 @@ class RegistroTest {
 
     @Test
     void laCuentaSeGuardaComoClienteConLaContrasenaEncriptada() throws Exception {
-        registrar("María López", "maria@mail.com", "clave-segura");
+        registrar("María López", "maria@mail.com", "clave-segura", "30111222");
 
         Usuario cliente = usuarioRepository.findByEmail("maria@mail.com").orElseThrow();
         assertThat(cliente.getNombre()).isEqualTo("María López");
@@ -53,7 +53,7 @@ class RegistroTest {
 
     @Test
     void despuesDeRegistrarsePuedeIniciarSesion() throws Exception {
-        registrar("María López", "maria@mail.com", "clave-segura");
+        registrar("María López", "maria@mail.com", "clave-segura", "30111222");
 
         mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -66,7 +66,7 @@ class RegistroTest {
 
     @Test
     void noSePuedeRegistrarUnEmailQueYaExiste() throws Exception {
-        registrar("Otro", "admin@telecom.com", "clave-segura")
+        registrar("Otro", "admin@telecom.com", "clave-segura", "30111222")
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.detail").value("El email admin@telecom.com ya está en uso"))
                 .andExpect(cookie().doesNotExist(CookieDeSesion.NOMBRE));
@@ -74,14 +74,32 @@ class RegistroTest {
 
     @Test
     void conDatosInvalidosResponde400() throws Exception {
-        registrar("", "no-es-un-email", "corta")
+        registrar("", "no-es-un-email", "corta", "ABC")
                 .andExpect(status().isBadRequest());
     }
 
-    private ResultActions registrar(String nombre, String email, String contrasena) throws Exception {
+    @Test
+    void elRegistroGuardaElDniYElTelefono() throws Exception {
+        registrar("María López", "maria@mail.com", "clave-segura", "30111222");
+
+        Usuario cliente = usuarioRepository.findByEmail("maria@mail.com").orElseThrow();
+        assertThat(cliente.getDni()).isEqualTo("30111222");
+        assertThat(cliente.getTelefono()).isEqualTo("11 4444-5555");
+    }
+
+    @Test
+    void noSePuedeRegistrarUnDniQueYaExiste() throws Exception {
+        registrar("María López", "maria@mail.com", "clave-segura", "30111222");
+
+        registrar("Otra persona", "otra@mail.com", "clave-segura", "30111222")
+                .andExpect(status().isConflict());
+    }
+
+    // El helper suma el DNI; el teléfono es fijo
+    private ResultActions registrar(String nombre, String email, String contrasena, String dni) throws Exception {
         String cuerpo = """
-                {"nombre": "%s", "email": "%s", "contrasena": "%s"}
-                """.formatted(nombre, email, contrasena);
+                {"nombre": "%s", "email": "%s", "contrasena": "%s", "dni": "%s", "telefono": "11 4444-5555"}
+                """.formatted(nombre, email, contrasena, dni);
         return mockMvc.perform(post("/api/auth/registro")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(cuerpo));
