@@ -2,8 +2,8 @@ package com.telecom.usuarios.config;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.telecom.usuarios.usuario.Rol;
-import com.telecom.usuarios.usuario.UsuarioRepository;
+import com.telecom.usuarios.usuario.entity.Rol;
+import com.telecom.usuarios.usuario.repository.UsuarioRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.DefaultApplicationArguments;

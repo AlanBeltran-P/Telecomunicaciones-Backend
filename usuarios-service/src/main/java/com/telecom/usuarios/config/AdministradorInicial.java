@@ -1,8 +1,8 @@
 package com.telecom.usuarios.config;
 
-import com.telecom.usuarios.usuario.Rol;
-import com.telecom.usuarios.usuario.Usuario;
-import com.telecom.usuarios.usuario.UsuarioRepository;
+import com.telecom.usuarios.usuario.entity.Rol;
+import com.telecom.usuarios.usuario.entity.Usuario;
+import com.telecom.usuarios.usuario.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
