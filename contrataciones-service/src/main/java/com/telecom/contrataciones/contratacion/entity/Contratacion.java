@@ -53,6 +53,11 @@ public class Contratacion {
 
     private LocalDate fechaInstalacion;
 
+    private LocalDate fechaSuspension;
+
+    // Al reactivar no se cobran los meses sin servicio: se vuelve a facturar desde esta fecha
+    private LocalDate facturarDesde;
+
     protected Contratacion() {
         // Requerido por JPA
     }
@@ -80,6 +85,22 @@ public class Contratacion {
 
     public boolean estaDadaDeBaja() {
         return estado == EstadoContratacion.BAJA;
+    }
+
+    public void suspenderPorFaltaDePago(LocalDate fecha) {
+        this.estado = EstadoContratacion.SUSPENDIDA_POR_FALTA_DE_PAGO;
+        this.fechaSuspension = fecha;
+    }
+
+    public boolean estaSuspendida() {
+        return estado == EstadoContratacion.SUSPENDIDA_POR_FALTA_DE_PAGO;
+    }
+
+    // Vuelve al estado que tenía: activa si ya estaba instalada, o pendiente de instalación
+    public void reactivar(LocalDate fecha) {
+        this.estado = fechaInstalacion != null ? EstadoContratacion.ACTIVA : EstadoContratacion.PENDIENTE_INSTALACION;
+        this.fechaSuspension = null;
+        this.facturarDesde = fecha;
     }
 
     public boolean estaPendienteDeInstalacion() {
@@ -148,5 +169,14 @@ public class Contratacion {
 
     public LocalDate getFechaInstalacion() {
         return fechaInstalacion;
+    }
+
+    public LocalDate getFechaSuspension() {
+        return fechaSuspension;
+    }
+
+    // Si nunca se reactivó, se factura desde que se contrató
+    public LocalDate getFacturarDesde() {
+        return facturarDesde != null ? facturarDesde : fechaContratacion;
     }
 }

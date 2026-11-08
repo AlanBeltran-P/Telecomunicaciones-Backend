@@ -13,5 +13,6 @@ public record ContratacionResponse(
         String direccion,
         EstadoContratacion estado,
         LocalDate fechaContratacion,
-        LocalDate fechaBaja) {
+        LocalDate fechaBaja,
+        LocalDate fechaSuspension) {
 }

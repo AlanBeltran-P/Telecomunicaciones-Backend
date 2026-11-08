@@ -9,5 +9,6 @@ public record ContratacionFacturable(
         Long clienteId,
         String planNombre,
         BigDecimal precioMensual,
-        LocalDate fechaContratacion) {
+        LocalDate fechaContratacion,
+        LocalDate facturarDesde) {
 }
