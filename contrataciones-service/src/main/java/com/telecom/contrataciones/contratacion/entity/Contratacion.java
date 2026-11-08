@@ -19,8 +19,9 @@ public class Contratacion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Id del usuario en usuarios-service (no cambia aunque el cliente edite su email)
     @Column(nullable = false)
-    private String clienteEmail;
+    private Long clienteId;
 
     @Column(nullable = false)
     private Long planId;
@@ -43,18 +44,20 @@ public class Contratacion {
     @Column(nullable = false)
     private LocalDate fechaContratacion;
 
+    private LocalDate fechaBaja;
+
     protected Contratacion() {
         // Requerido por JPA
     }
 
     public Contratacion(
-            String clienteEmail,
+            Long clienteId,
             Long planId,
             String planNombre,
             BigDecimal precioMensual,
             String direccion,
             LocalDate fechaContratacion) {
-        this.clienteEmail = clienteEmail;
+        this.clienteId = clienteId;
         this.planId = planId;
         this.planNombre = planNombre;
         this.precioMensual = precioMensual;
@@ -63,12 +66,21 @@ public class Contratacion {
         this.estado = EstadoContratacion.PENDIENTE_INSTALACION;
     }
 
+    public void darDeBaja(LocalDate fecha) {
+        this.estado = EstadoContratacion.BAJA;
+        this.fechaBaja = fecha;
+    }
+
+    public boolean estaDadaDeBaja() {
+        return estado == EstadoContratacion.BAJA;
+    }
+
     public Long getId() {
         return id;
     }
 
-    public String getClienteEmail() {
-        return clienteEmail;
+    public Long getClienteId() {
+        return clienteId;
     }
 
     public Long getPlanId() {
@@ -93,5 +105,9 @@ public class Contratacion {
 
     public LocalDate getFechaContratacion() {
         return fechaContratacion;
+    }
+
+    public LocalDate getFechaBaja() {
+        return fechaBaja;
     }
 }

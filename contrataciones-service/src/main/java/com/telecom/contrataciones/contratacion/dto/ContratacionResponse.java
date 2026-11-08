@@ -6,10 +6,12 @@ import java.time.LocalDate;
 
 public record ContratacionResponse(
         Long id,
+        Long clienteId,
         Long planId,
         String planNombre,
         BigDecimal precioMensual,
         String direccion,
         EstadoContratacion estado,
-        LocalDate fechaContratacion) {
+        LocalDate fechaContratacion,
+        LocalDate fechaBaja) {
 }

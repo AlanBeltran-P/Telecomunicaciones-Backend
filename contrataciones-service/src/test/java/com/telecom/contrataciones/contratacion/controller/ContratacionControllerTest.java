@@ -33,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 class ContratacionControllerTest {
 
-    private static final String CLIENTE = "maria@mail.com";
+    private static final Long CLIENTE_ID = 10L;
 
     @Autowired
     private MockMvc mockMvc;
@@ -58,6 +58,7 @@ class ContratacionControllerTest {
         contratar(1L)
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.clienteId").value(CLIENTE_ID))
                 .andExpect(jsonPath("$.planNombre").value("Internet 300 MB"))
                 .andExpect(jsonPath("$.precioMensual").value(15000.5))
                 .andExpect(jsonPath("$.direccion").value("Av. Siempre Viva 742"))
@@ -70,7 +71,7 @@ class ContratacionControllerTest {
         contratar(1L);
 
         Contratacion guardada = contratacionRepository.findAll().getFirst();
-        assertThat(guardada.getClienteEmail()).isEqualTo(CLIENTE);
+        assertThat(guardada.getClienteId()).isEqualTo(CLIENTE_ID);
         assertThat(guardada.getDireccion()).isEqualTo("Av. Siempre Viva 742");
     }
 
@@ -146,7 +147,7 @@ class ContratacionControllerTest {
 
     private RequestPostProcessor comoCliente() {
         return jwt()
-                .jwt(token -> token.subject(CLIENTE))
+                .jwt(token -> token.subject("maria@mail.com").claim("usuarioId", CLIENTE_ID))
                 .authorities(new SimpleGrantedAuthority("ROLE_CLIENTE"));
     }
 }
