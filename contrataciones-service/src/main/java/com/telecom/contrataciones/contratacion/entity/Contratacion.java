@@ -86,6 +86,16 @@ public class Contratacion {
         return estado == EstadoContratacion.PENDIENTE_INSTALACION;
     }
 
+    // Con la instalación hecha, el cliente ya recibe el servicio
+    public void marcarInstalada(LocalDate fecha) {
+        this.estado = EstadoContratacion.ACTIVA;
+        this.fechaInstalacion = fecha;
+    }
+
+    public boolean estaAsignadaA(Long tecnicoId) {
+        return tecnicoId.equals(this.tecnicoId);
+    }
+
     // Mientras siga pendiente, el empleado puede cambiar de técnico
     public void asignarTecnico(Long tecnicoId, String tecnicoNombre) {
         this.tecnicoId = tecnicoId;
