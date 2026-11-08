@@ -7,6 +7,7 @@ import com.telecom.contrataciones.contratacion.exception.ContratacionYaDadaDeBaj
 import com.telecom.contrataciones.contratacion.exception.PlanNoDisponibleException;
 import com.telecom.contrataciones.contratacion.exception.PlanYaContratadoException;
 import com.telecom.contrataciones.contratacion.exception.UsuariosNoDisponibleException;
+import com.telecom.contrataciones.instalacion.exception.InstalacionDeOtroTecnicoException;
 import com.telecom.contrataciones.instalacion.exception.InstalacionNoPendienteException;
 import com.telecom.contrataciones.instalacion.exception.TecnicoNoEncontradoException;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,11 @@ public class ManejoDeErrores {
             InstalacionNoPendienteException.class})
     public ProblemDetail conflicto(RuntimeException error) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, error.getMessage());
+    }
+
+    @ExceptionHandler(InstalacionDeOtroTecnicoException.class)
+    public ProblemDetail prohibido(InstalacionDeOtroTecnicoException error) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, error.getMessage());
     }
 
     // Otro microservicio no respondió

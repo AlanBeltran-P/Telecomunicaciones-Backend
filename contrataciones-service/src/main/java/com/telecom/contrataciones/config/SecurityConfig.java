@@ -26,6 +26,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/contrataciones/*/baja").hasRole("EMPLEADO")
                         .requestMatchers("/api/instalaciones/pendientes").hasRole("EMPLEADO")
                         .requestMatchers(HttpMethod.PUT, "/api/instalaciones/*/tecnico").hasRole("EMPLEADO")
+                        .requestMatchers("/api/instalaciones/mias").hasRole("TECNICO")
+                        .requestMatchers(HttpMethod.PUT, "/api/instalaciones/*/realizada").hasRole("TECNICO")
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(SeguridadJwt.tokenDesdeLaCookie());
         return http.build();

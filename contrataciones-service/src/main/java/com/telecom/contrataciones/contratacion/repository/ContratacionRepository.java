@@ -12,4 +12,7 @@ public interface ContratacionRepository extends JpaRepository<Contratacion, Long
     List<Contratacion> findByClienteIdOrderByFechaContratacionDesc(Long clienteId);
 
     List<Contratacion> findByEstadoOrderByFechaContratacionAsc(EstadoContratacion estado);
+
+    List<Contratacion> findByTecnicoIdAndEstadoOrderByFechaContratacionAsc(
+            Long tecnicoId, EstadoContratacion estado);
 }
