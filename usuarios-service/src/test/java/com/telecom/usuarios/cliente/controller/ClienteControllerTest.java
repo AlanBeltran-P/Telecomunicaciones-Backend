@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.web.servlet.MockMvc;
@@ -76,6 +77,32 @@ class ClienteControllerTest {
         crear("Otra persona", "otra@mail.com", "30111222")
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.detail").value("El DNI 30111222 ya está registrado"));
+    }
+
+    @Test
+    void enInglesElErrorSaleEnIngles() throws Exception {
+        crear("María López", "maria@mail.com", "30111222");
+
+        mockMvc.perform(comoEmpleado(post("/api/clientes"))
+                        .header(HttpHeaders.ACCEPT_LANGUAGE, "en")
+                        .content("""
+                                {"nombre": "Otra", "email": "otra@mail.com", "contrasena": "clave-segura",
+                                 "dni": "30111222", "telefono": "11 4444-5555"}
+                                """))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.detail").value("The ID number 30111222 is already registered"));
+    }
+
+    @Test
+    void laValidacionDelDniSeTraduce() throws Exception {
+        mockMvc.perform(comoEmpleado(post("/api/clientes"))
+                        .header(HttpHeaders.ACCEPT_LANGUAGE, "en")
+                        .content("""
+                                {"nombre": "María", "email": "maria@mail.com", "contrasena": "clave-segura",
+                                 "dni": "ABC", "telefono": "11 4444-5555"}
+                                """))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errores.dni").value("must have 7 or 8 digits"));
     }
 
     @Test

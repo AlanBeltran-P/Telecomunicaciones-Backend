@@ -54,6 +54,18 @@ class AuthControllerTest {
     }
 
     @Test
+    void conCredencialesIncorrectasElMensajeSaleEnElIdiomaPedido() throws Exception {
+        mockMvc.perform(post("/api/auth/login")
+                        .header("Accept-Language", "en")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"email": "admin@telecom.com", "contrasena": "otra"}
+                                """))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.detail").value("Incorrect email or password"));
+    }
+
+    @Test
     void conEmailInexistenteResponde401() throws Exception {
         login("nadie@telecom.com", "admin123")
                 .andExpect(status().isUnauthorized());
