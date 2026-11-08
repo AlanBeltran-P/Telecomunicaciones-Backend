@@ -1,5 +1,6 @@
 package com.telecom.usuarios.config;
 
+import com.telecom.seguridad.SeguridadJwt;
 import java.time.Duration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CookieDeSesion {
 
-    public static final String NOMBRE = "token";
+    public static final String NOMBRE = SeguridadJwt.NOMBRE_COOKIE;
 
     // En local (http) va en false; en producción (https) siempre true
     private final boolean segura;

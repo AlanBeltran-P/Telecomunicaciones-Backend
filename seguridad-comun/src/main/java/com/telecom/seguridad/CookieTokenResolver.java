@@ -1,4 +1,4 @@
-package com.telecom.usuarios.config;
+package com.telecom.seguridad;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,7 +10,7 @@ public class CookieTokenResolver implements BearerTokenResolver {
 
     @Override
     public String resolve(HttpServletRequest request) {
-        Cookie cookie = WebUtils.getCookie(request, CookieDeSesion.NOMBRE);
+        Cookie cookie = WebUtils.getCookie(request, SeguridadJwt.NOMBRE_COOKIE);
         if (cookie == null || cookie.getValue().isBlank()) {
             return null;
         }

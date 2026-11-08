@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.telecom.catalogo.config.CookieTokenResolver;
+import com.telecom.seguridad.SeguridadJwt;
 import com.telecom.catalogo.plan.entity.Plan;
 import com.telecom.catalogo.plan.repository.PlanRepository;
 import jakarta.servlet.http.Cookie;
@@ -52,7 +52,7 @@ class CatalogoPublicoTest {
 
     @Test
     void conUnaCookieVencidaOInvalidaElCatalogoSigueVisible() throws Exception {
-        Cookie cookieInvalida = new Cookie(CookieTokenResolver.NOMBRE_COOKIE, "token-vencido");
+        Cookie cookieInvalida = new Cookie(SeguridadJwt.NOMBRE_COOKIE, "token-vencido");
 
         mockMvc.perform(get("/api/planes").cookie(cookieInvalida))
                 .andExpect(status().isOk());

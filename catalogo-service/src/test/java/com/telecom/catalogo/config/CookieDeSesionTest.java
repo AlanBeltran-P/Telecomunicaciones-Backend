@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
+import com.telecom.seguridad.SeguridadJwt;
 import jakarta.servlet.http.Cookie;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
@@ -70,7 +71,7 @@ class CookieDeSesionTest {
     }
 
     private Cookie cookieCon(String token) {
-        return new Cookie(CookieTokenResolver.NOMBRE_COOKIE, token);
+        return new Cookie(SeguridadJwt.NOMBRE_COOKIE, token);
     }
 
     private String token(String rol, String secreto) {
