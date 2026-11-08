@@ -17,4 +17,8 @@ public interface FacturaRepository extends JpaRepository<Factura, Long> {
     Optional<Factura> findByIdAndClienteId(Long id, Long clienteId);
 
     List<Factura> findByClienteIdAndEstadoIn(Long clienteId, List<EstadoFactura> estados);
+
+    List<Factura> findByEstadoAndFechaVencimientoBefore(EstadoFactura estado, LocalDate fecha);
+
+    List<Factura> findByEstadoAndBajaSolicitadaFalseAndFechaVencimientoBefore(EstadoFactura estado, LocalDate fecha);
 }

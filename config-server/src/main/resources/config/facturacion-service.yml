@@ -8,5 +8,13 @@ spring:
 facturacion:
   # Días entre la emisión y el vencimiento de cada factura
   dias-para-vencer: 10
+  # Días después del vencimiento en que se da de baja el plan si sigue impaga
+  dias-hasta-la-baja: 14
   # Todos los días a las 2 de la mañana
   cron: "0 0 2 * * *"
+
+# Emails: para enviarlos de verdad, definir las variables de entorno SPRING_MAIL_HOST,
+# SPRING_MAIL_PORT, SPRING_MAIL_USERNAME y SPRING_MAIL_PASSWORD.
+# Sin SPRING_MAIL_HOST, los emails se escriben en el log.
+notificaciones:
+  remitente: ${EMAIL_REMITENTE:no-responder@telecom.com}

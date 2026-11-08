@@ -86,8 +86,21 @@ class GeneradorDeFacturasTest {
                 .containsExactlyInAnyOrder(LocalDate.of(2027, 2, 28), LocalDate.of(2027, 3, 31));
     }
 
+    @Test
+    void despuesDeUnaReactivacionNoSeFacturanLosMesesSinServicio() {
+        // Contratada el 07/11, suspendida y reactivada el 01/02: el mes 07/01-07/02 queda sin facturar
+        when(contratacionesClient.listarFacturables()).thenReturn(List.of(new ContratacionFacturable(
+                1L, 10L, "Internet 300 MB", new BigDecimal("15000.50"), CONTRATADA_EL, LocalDate.of(2027, 2, 1))));
+
+        generadorDeFacturas.generarHasta(LocalDate.of(2027, 3, 7));
+
+        assertThat(facturaRepository.findAll())
+                .extracting(Factura::getPeriodoDesde)
+                .containsExactly(LocalDate.of(2027, 2, 7));
+    }
+
     private void contratacionDel(LocalDate fecha) {
         when(contratacionesClient.listarFacturables()).thenReturn(List.of(
-                new ContratacionFacturable(1L, 10L, "Internet 300 MB", new BigDecimal("15000.50"), fecha)));
+                new ContratacionFacturable(1L, 10L, "Internet 300 MB", new BigDecimal("15000.50"), fecha, fecha)));
     }
 }

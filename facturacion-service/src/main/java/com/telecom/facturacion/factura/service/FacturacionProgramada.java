@@ -8,7 +8,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 // Corre todos los días (por defecto a las 2 de la mañana, ver facturacion.cron):
-// primero genera las facturas nuevas y después cobra las de quienes tienen débito automático
+// genera las facturas nuevas, cobra las de quienes tienen débito automático y
+// controla los vencimientos (avisos y baja por falta de pago)
 @Component
 public class FacturacionProgramada {
 
@@ -16,12 +17,15 @@ public class FacturacionProgramada {
 
     private final GeneradorDeFacturas generadorDeFacturas;
     private final DebitoAutomaticoService debitoAutomaticoService;
+    private final ControlDeVencimientos controlDeVencimientos;
 
     public FacturacionProgramada(
             GeneradorDeFacturas generadorDeFacturas,
-            DebitoAutomaticoService debitoAutomaticoService) {
+            DebitoAutomaticoService debitoAutomaticoService,
+            ControlDeVencimientos controlDeVencimientos) {
         this.generadorDeFacturas = generadorDeFacturas;
         this.debitoAutomaticoService = debitoAutomaticoService;
+        this.controlDeVencimientos = controlDeVencimientos;
     }
 
     // Cada paso tiene su propio manejo de errores: si uno falla, los demás igual corren
@@ -29,6 +33,7 @@ public class FacturacionProgramada {
     public void procesarElDia() {
         generarLasDeHoy();
         cobrarConDebitoAutomatico();
+        controlarVencimientos();
     }
 
     private void generarLasDeHoy() {
@@ -38,6 +43,14 @@ public class FacturacionProgramada {
         } catch (RuntimeException error) {
             // Si falla (por ejemplo, contrataciones-service caído), mañana se pone al día
             log.error("Falló la facturación diaria", error);
+        }
+    }
+
+    private void controlarVencimientos() {
+        try {
+            controlDeVencimientos.controlarHasta(LocalDate.now());
+        } catch (RuntimeException error) {
+            log.error("Falló el control de vencimientos", error);
         }
     }
 

@@ -22,4 +22,4 @@ spring:
             - id: facturacion
               uri: lb://facturacion-service
               predicates:
-                - Path=/api/facturas/**
+                - Path=/api/facturas/**,/api/notificaciones/**

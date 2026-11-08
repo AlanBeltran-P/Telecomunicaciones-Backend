@@ -13,6 +13,7 @@ jwt:
 
 facturacion:
   dias-para-vencer: 10
+  dias-hasta-la-baja: 14
   # "-" desactiva el proceso programado durante los tests
   cron: "-"
 
