@@ -19,6 +19,7 @@ catálogo.
 
 ## Convenciones
 - Mapeo entre entidades y DTOs con MapStruct (en todos los microservicios)
+- Cada feature se organiza en subcarpetas controller, service, repository, entity, dto, mapper y exception (solo las que use; sin carpetas vacías)
 - Cada microservicio se trabaja en su propia rama y PR
 - Los PRs los mergea Claude con merge commit, sin borrar la rama
 

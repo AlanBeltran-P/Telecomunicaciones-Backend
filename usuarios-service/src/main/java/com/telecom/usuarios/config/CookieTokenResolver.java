@@ -1,6 +1,5 @@
 package com.telecom.usuarios.config;
 
-import com.telecom.usuarios.auth.CookieDeSesion;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
