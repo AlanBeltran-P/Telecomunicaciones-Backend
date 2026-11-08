@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.test.util.ReflectionTestUtils;
 
 class TokenServiceTest {
 
@@ -24,21 +25,29 @@ class TokenServiceTest {
 
     @Test
     void elTokenLlevaElEmailYElRol() {
-        Usuario usuario = new Usuario("Administrador", "admin@telecom.com", "hash", Rol.ADMINISTRADOR);
+        Usuario usuario = administradorConId(7L);
 
         Jwt jwt = decodificar(tokenService.generar(usuario));
 
         assertThat(jwt.getSubject()).isEqualTo("admin@telecom.com");
         assertThat(jwt.getClaimAsString("rol")).isEqualTo("ADMINISTRADOR");
+        assertThat(jwt.getClaim("usuarioId").toString()).isEqualTo("7");
     }
 
     @Test
     void elTokenVenceSegunLaDuracionConfigurada() {
-        Usuario usuario = new Usuario("Administrador", "admin@telecom.com", "hash", Rol.ADMINISTRADOR);
+        Usuario usuario = administradorConId(7L);
 
         Jwt jwt = decodificar(tokenService.generar(usuario));
 
         assertThat(Duration.between(jwt.getIssuedAt(), jwt.getExpiresAt())).isEqualTo(Duration.ofHours(1));
+    }
+
+    // El id lo asigna la base; en un test unitario se fija a mano
+    private Usuario administradorConId(Long id) {
+        Usuario usuario = new Usuario("Administrador", "admin@telecom.com", "hash", Rol.ADMINISTRADOR);
+        ReflectionTestUtils.setField(usuario, "id", id);
+        return usuario;
     }
 
     private Jwt decodificar(String token) {

@@ -22,7 +22,8 @@ class ConfigServerApplicationTests {
     void elGatewayEnviaAuthAUsuariosYPlanesACatalogo() {
         String configuracion = configuracionDe("api-gateway");
 
-        assertThat(configuracion).contains("lb://usuarios-service", "/api/auth/**", "/api/usuarios/**", "/api/clientes/**");
+        assertThat(configuracion).contains("lb://usuarios-service", "/api/auth/**", "/api/usuarios/**", "/api/clientes/**", "/api/tecnicos/**");
+        assertThat(configuracion).doesNotContain("/api/internos");
         assertThat(configuracion).contains("lb://catalogo-service", "/api/planes/**");
         assertThat(configuracion).contains("lb://contrataciones-service", "/api/contrataciones/**");
     }
