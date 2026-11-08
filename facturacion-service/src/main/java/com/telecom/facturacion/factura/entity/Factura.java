@@ -59,6 +59,11 @@ public class Factura {
     // Identificador del cobro en el proveedor, para conciliar o reclamar
     private String referenciaDePago;
 
+    // Ya se pidió la baja del plan por esta factura impaga (para no pedirla dos veces).
+    // El default permite agregar la columna a una tabla que ya tiene filas.
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean bajaSolicitada;
+
     protected Factura() {
         // Requerido por JPA
     }
@@ -85,6 +90,14 @@ public class Factura {
 
     public boolean estaPagada() {
         return estado == EstadoFactura.PAGADA;
+    }
+
+    public void vencer() {
+        this.estado = EstadoFactura.VENCIDA;
+    }
+
+    public void marcarBajaSolicitada() {
+        this.bajaSolicitada = true;
     }
 
     public void registrarPago(MedioDePago medio, String referencia, LocalDate fecha) {
@@ -144,5 +157,9 @@ public class Factura {
 
     public String getReferenciaDePago() {
         return referenciaDePago;
+    }
+
+    public boolean isBajaSolicitada() {
+        return bajaSolicitada;
     }
 }

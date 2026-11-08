@@ -28,6 +28,18 @@ public class ContratacionesClient {
         this.secreto = secreto;
     }
 
+    public void suspender(Long contratacionId) {
+        try {
+            restClient.put()
+                    .uri("/api/internos/contrataciones/{id}/suspension", contratacionId)
+                    .header(HttpHeaders.COOKIE, TokenDeServicio.comoCookie(secreto, NOMBRE_DEL_SERVICIO))
+                    .retrieve()
+                    .toBodilessEntity();
+        } catch (RestClientException error) {
+            throw new ContratacionesNoDisponibleException(error);
+        }
+    }
+
     public List<ContratacionFacturable> listarFacturables() {
         try {
             return restClient.get()

@@ -45,7 +45,8 @@ public class GeneradorDeFacturas {
         LocalDate hasta = contratacion.fechaContratacion().plusMonths(mes);
         while (!hasta.isAfter(hoy)) {
             LocalDate desde = contratacion.fechaContratacion().plusMonths(mes - 1);
-            if (!facturaRepository.existsByContratacionIdAndPeriodoDesde(contratacion.id(), desde)) {
+            boolean corresponde = !desde.isBefore(contratacion.facturarDesde());
+            if (corresponde && !facturaRepository.existsByContratacionIdAndPeriodoDesde(contratacion.id(), desde)) {
                 facturaRepository.save(nuevaFactura(contratacion, desde, hasta));
                 generadas++;
             }

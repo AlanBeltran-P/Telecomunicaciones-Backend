@@ -25,6 +25,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/facturas/mias").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.POST, "/api/facturas/*/pagos").hasRole("CLIENTE")
                         .requestMatchers("/api/facturas/debito-automatico").hasRole("CLIENTE")
+                        .requestMatchers("/api/notificaciones/**").hasRole("CLIENTE")
                         // Solo otros microservicios; el Gateway no expone estas rutas
                         .requestMatchers("/api/internos/**").hasRole(TokenDeServicio.ROL)
                         .anyRequest().authenticated())

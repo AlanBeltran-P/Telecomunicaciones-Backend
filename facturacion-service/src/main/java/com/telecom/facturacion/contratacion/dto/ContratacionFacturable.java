@@ -9,5 +9,7 @@ public record ContratacionFacturable(
         Long clienteId,
         String planNombre,
         BigDecimal precioMensual,
-        LocalDate fechaContratacion) {
+        LocalDate fechaContratacion,
+        // Después de una reactivación, no se facturan los meses anteriores a esta fecha
+        LocalDate facturarDesde) {
 }
