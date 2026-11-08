@@ -34,7 +34,8 @@ public class AdministradorInicial implements ApplicationRunner {
         if (usuarioRepository.existsByEmail(email)) {
             return;
         }
-        Usuario administrador = new Usuario(email, passwordEncoder.encode(contrasena), Rol.ADMINISTRADOR);
+        Usuario administrador = new Usuario(
+                "Administrador", email, passwordEncoder.encode(contrasena), Rol.ADMINISTRADOR);
         usuarioRepository.save(administrador);
     }
 }

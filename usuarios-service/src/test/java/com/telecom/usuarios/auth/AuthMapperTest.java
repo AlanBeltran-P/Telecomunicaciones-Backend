@@ -13,7 +13,7 @@ class AuthMapperTest {
 
     @Test
     void laRespuestaDelLoginLlevaElEmailYElRol() {
-        Usuario usuario = new Usuario("admin@telecom.com", "hash", Rol.ADMINISTRADOR);
+        Usuario usuario = new Usuario("Administrador", "admin@telecom.com", "hash", Rol.ADMINISTRADOR);
 
         LoginResponse respuesta = authMapper.aLoginResponse(usuario);
 
