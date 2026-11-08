@@ -62,6 +62,12 @@ public class ContratacionService {
         return contratacionRepository.findByClienteIdOrderByFechaContratacionDesc(clienteId);
     }
 
+    // Se factura desde que se contrata (aunque no esté instalada) hasta que se da de baja
+    @Transactional(readOnly = true)
+    public List<Contratacion> listarFacturables() {
+        return contratacionRepository.findByEstadoNot(EstadoContratacion.BAJA);
+    }
+
     @Transactional
     public Contratacion darDeBaja(Long id) {
         Contratacion contratacion = contratacionRepository.findById(id)

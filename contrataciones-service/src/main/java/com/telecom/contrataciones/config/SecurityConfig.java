@@ -1,6 +1,7 @@
 package com.telecom.contrataciones.config;
 
 import com.telecom.seguridad.SeguridadJwt;
+import com.telecom.seguridad.TokenDeServicio;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/instalaciones/pendientes").hasRole("EMPLEADO")
                         .requestMatchers(HttpMethod.PUT, "/api/instalaciones/*/tecnico").hasRole("EMPLEADO")
                         .requestMatchers("/api/instalaciones/mias").hasRole("TECNICO")
+                        // Solo otros microservicios; el Gateway no expone estas rutas
+                        .requestMatchers("/api/internos/**").hasRole(TokenDeServicio.ROL)
                         .requestMatchers(HttpMethod.PUT, "/api/instalaciones/*/realizada").hasRole("TECNICO")
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(SeguridadJwt.tokenDesdeLaCookie());
