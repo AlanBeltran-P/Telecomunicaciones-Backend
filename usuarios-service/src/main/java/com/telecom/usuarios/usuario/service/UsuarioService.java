@@ -31,11 +31,20 @@ public class UsuarioService {
     @Transactional
     public Usuario crear(CrearUsuarioRequest request) {
         validarRolDelPersonal(request.rol());
-        if (usuarioRepository.existsByEmail(request.email())) {
-            throw new EmailEnUsoException(request.email());
+        return guardarNuevo(request.nombre(), request.email(), request.contrasena(), request.rol());
+    }
+
+    // Registro desde la web: siempre crea un cliente
+    @Transactional
+    public Usuario registrarCliente(String nombre, String email, String contrasena) {
+        return guardarNuevo(nombre, email, contrasena, Rol.CLIENTE);
+    }
+
+    private Usuario guardarNuevo(String nombre, String email, String contrasena, Rol rol) {
+        if (usuarioRepository.existsByEmail(email)) {
+            throw new EmailEnUsoException(email);
         }
-        String contrasenaEncriptada = passwordEncoder.encode(request.contrasena());
-        Usuario usuario = new Usuario(request.nombre(), request.email(), contrasenaEncriptada, request.rol());
+        Usuario usuario = new Usuario(nombre, email, passwordEncoder.encode(contrasena), rol);
         return usuarioRepository.save(usuario);
     }
 
