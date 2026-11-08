@@ -22,6 +22,7 @@ public class SecurityConfig {
                 .sessionManagement(sesion -> sesion.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/error").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/facturas/reporte").hasRole("ADMINISTRADOR")
                         .requestMatchers("/api/facturas/mias").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.POST, "/api/facturas/*/pagos").hasRole("CLIENTE")
                         .requestMatchers("/api/facturas/debito-automatico").hasRole("CLIENTE")

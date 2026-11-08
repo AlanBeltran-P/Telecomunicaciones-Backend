@@ -20,5 +20,12 @@ public interface FacturaRepository extends JpaRepository<Factura, Long> {
 
     List<Factura> findByEstadoAndFechaVencimientoBefore(EstadoFactura estado, LocalDate fecha);
 
+    // Para los reportes: emitidas o pagadas entre dos fechas (inclusive), y la deuda actual
+    List<Factura> findByFechaEmisionBetween(LocalDate desde, LocalDate hasta);
+
+    List<Factura> findByFechaPagoBetween(LocalDate desde, LocalDate hasta);
+
+    List<Factura> findByEstadoIn(List<EstadoFactura> estados);
+
     List<Factura> findByEstadoAndBajaSolicitadaFalseAndFechaVencimientoBefore(EstadoFactura estado, LocalDate fecha);
 }
