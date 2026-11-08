@@ -1,5 +1,6 @@
 package com.telecom.facturacion.factura.repository;
 
+import com.telecom.facturacion.factura.entity.EstadoFactura;
 import com.telecom.facturacion.factura.entity.Factura;
 import java.time.LocalDate;
 import java.util.List;
@@ -14,4 +15,6 @@ public interface FacturaRepository extends JpaRepository<Factura, Long> {
 
     // Así un cliente nunca puede operar sobre la factura de otro
     Optional<Factura> findByIdAndClienteId(Long id, Long clienteId);
+
+    List<Factura> findByClienteIdAndEstadoIn(Long clienteId, List<EstadoFactura> estados);
 }
