@@ -19,3 +19,7 @@ spring:
               uri: lb://contrataciones-service
               predicates:
                 - Path=/api/contrataciones/**,/api/instalaciones/**
+            - id: facturacion
+              uri: lb://facturacion-service
+              predicates:
+                - Path=/api/facturas/**

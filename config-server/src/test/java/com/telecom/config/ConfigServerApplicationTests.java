@@ -26,6 +26,7 @@ class ConfigServerApplicationTests {
         assertThat(configuracion).doesNotContain("/api/internos");
         assertThat(configuracion).contains("lb://catalogo-service", "/api/planes/**");
         assertThat(configuracion).contains("lb://contrataciones-service", "/api/contrataciones/**", "/api/instalaciones/**");
+        assertThat(configuracion).contains("lb://facturacion-service", "/api/facturas/**");
     }
 
     @Test
@@ -33,6 +34,7 @@ class ConfigServerApplicationTests {
         assertThat(configuracionDe("usuarios-service")).contains("5432/usuarios");
         assertThat(configuracionDe("catalogo-service")).contains("5432/catalogo");
         assertThat(configuracionDe("contrataciones-service")).contains("5432/contrataciones");
+        assertThat(configuracionDe("facturacion-service")).contains("5432/facturacion");
     }
 
     private String configuracionDe(String servicio) {

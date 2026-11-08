@@ -1,0 +1,12 @@
+server:
+  port: 8084
+
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/facturacion}
+
+facturacion:
+  # Días entre la emisión y el vencimiento de cada factura
+  dias-para-vencer: 10
+  # Todos los días a las 2 de la mañana
+  cron: "0 0 2 * * *"
