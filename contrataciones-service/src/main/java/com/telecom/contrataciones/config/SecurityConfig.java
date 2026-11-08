@@ -25,6 +25,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/contrataciones").hasRole("CLIENTE")
                         .requestMatchers("/api/contrataciones/clientes/**").hasRole("EMPLEADO")
                         .requestMatchers(HttpMethod.PUT, "/api/contrataciones/*/baja").hasRole("EMPLEADO")
+                        .requestMatchers("/api/contrataciones/suspendidas").hasRole("EMPLEADO")
+                        .requestMatchers(HttpMethod.PUT, "/api/contrataciones/*/reactivacion").hasRole("EMPLEADO")
                         .requestMatchers("/api/instalaciones/pendientes").hasRole("EMPLEADO")
                         .requestMatchers(HttpMethod.PUT, "/api/instalaciones/*/tecnico").hasRole("EMPLEADO")
                         .requestMatchers("/api/instalaciones/mias").hasRole("TECNICO")

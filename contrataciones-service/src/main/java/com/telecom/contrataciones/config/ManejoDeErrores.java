@@ -3,6 +3,7 @@ package com.telecom.contrataciones.config;
 import com.telecom.contrataciones.contratacion.exception.CatalogoNoDisponibleException;
 import com.telecom.contrataciones.contratacion.exception.ClienteNoEncontradoException;
 import com.telecom.contrataciones.contratacion.exception.ContratacionNoEncontradaException;
+import com.telecom.contrataciones.contratacion.exception.ContratacionNoSuspendidaException;
 import com.telecom.contrataciones.contratacion.exception.ContratacionYaDadaDeBajaException;
 import com.telecom.contrataciones.contratacion.exception.PlanNoDisponibleException;
 import com.telecom.contrataciones.contratacion.exception.PlanYaContratadoException;
@@ -31,6 +32,7 @@ public class ManejoDeErrores {
     @ExceptionHandler({
             PlanYaContratadoException.class,
             ContratacionYaDadaDeBajaException.class,
+            ContratacionNoSuspendidaException.class,
             InstalacionNoPendienteException.class})
     public ProblemDetail conflicto(RuntimeException error) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, error.getMessage());
