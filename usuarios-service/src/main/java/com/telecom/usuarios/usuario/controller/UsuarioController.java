@@ -4,18 +4,13 @@ import com.telecom.usuarios.usuario.dto.CambiarRolRequest;
 import com.telecom.usuarios.usuario.dto.CrearUsuarioRequest;
 import com.telecom.usuarios.usuario.dto.UsuarioResponse;
 import com.telecom.usuarios.usuario.entity.Usuario;
-import com.telecom.usuarios.usuario.exception.EmailEnUsoException;
-import com.telecom.usuarios.usuario.exception.OperacionNoPermitidaException;
-import com.telecom.usuarios.usuario.exception.UsuarioNoEncontradoException;
 import com.telecom.usuarios.usuario.mapper.UsuarioMapper;
 import com.telecom.usuarios.usuario.service.UsuarioService;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ProblemDetail;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,20 +56,5 @@ public class UsuarioController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void desactivar(@PathVariable Long id, @AuthenticationPrincipal Jwt administrador) {
         usuarioService.desactivar(id, administrador.getSubject());
-    }
-
-    @ExceptionHandler(EmailEnUsoException.class)
-    public ProblemDetail emailEnUso(EmailEnUsoException error) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, error.getMessage());
-    }
-
-    @ExceptionHandler(OperacionNoPermitidaException.class)
-    public ProblemDetail operacionNoPermitida(OperacionNoPermitidaException error) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, error.getMessage());
-    }
-
-    @ExceptionHandler(UsuarioNoEncontradoException.class)
-    public ProblemDetail usuarioNoEncontrado(UsuarioNoEncontradoException error) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, error.getMessage());
     }
 }
