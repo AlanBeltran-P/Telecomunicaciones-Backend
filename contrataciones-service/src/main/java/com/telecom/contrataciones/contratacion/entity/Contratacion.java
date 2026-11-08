@@ -55,6 +55,11 @@ public class Contratacion {
 
     private LocalDate fechaSuspension;
 
+    // Para los reportes: fechaSuspension se borra al reactivar, esta no
+    private LocalDate fechaUltimaSuspension;
+
+    private LocalDate fechaReactivacion;
+
     // Al reactivar no se cobran los meses sin servicio: se vuelve a facturar desde esta fecha
     private LocalDate facturarDesde;
 
@@ -90,6 +95,7 @@ public class Contratacion {
     public void suspenderPorFaltaDePago(LocalDate fecha) {
         this.estado = EstadoContratacion.SUSPENDIDA_POR_FALTA_DE_PAGO;
         this.fechaSuspension = fecha;
+        this.fechaUltimaSuspension = fecha;
     }
 
     public boolean estaSuspendida() {
@@ -100,6 +106,7 @@ public class Contratacion {
     public void reactivar(LocalDate fecha) {
         this.estado = fechaInstalacion != null ? EstadoContratacion.ACTIVA : EstadoContratacion.PENDIENTE_INSTALACION;
         this.fechaSuspension = null;
+        this.fechaReactivacion = fecha;
         this.facturarDesde = fecha;
     }
 
@@ -173,6 +180,14 @@ public class Contratacion {
 
     public LocalDate getFechaSuspension() {
         return fechaSuspension;
+    }
+
+    public LocalDate getFechaUltimaSuspension() {
+        return fechaUltimaSuspension;
+    }
+
+    public LocalDate getFechaReactivacion() {
+        return fechaReactivacion;
     }
 
     // Si nunca se reactivó, se factura desde que se contrató

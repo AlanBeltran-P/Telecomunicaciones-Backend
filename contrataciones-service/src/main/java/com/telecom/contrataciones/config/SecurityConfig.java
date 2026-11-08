@@ -23,6 +23,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/error").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/contrataciones").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.GET, "/api/contrataciones/reporte").hasRole("ADMINISTRADOR")
                         .requestMatchers("/api/contrataciones/clientes/**").hasRole("EMPLEADO")
                         .requestMatchers(HttpMethod.PUT, "/api/contrataciones/*/baja").hasRole("EMPLEADO")
                         .requestMatchers("/api/contrataciones/suspendidas").hasRole("EMPLEADO")
