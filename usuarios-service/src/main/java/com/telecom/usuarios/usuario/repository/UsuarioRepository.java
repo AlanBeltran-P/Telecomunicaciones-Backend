@@ -2,6 +2,7 @@ package com.telecom.usuarios.usuario.repository;
 
 import com.telecom.usuarios.usuario.entity.Rol;
 import com.telecom.usuarios.usuario.entity.Usuario;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,6 +22,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     List<Usuario> findByRolAndActivoTrue(Rol rol);
 
     boolean existsByDni(String dni);
+
+    // Para los reportes: altas de un rol entre dos fechas (inclusive) y activos de un rol
+    List<Usuario> findByRolAndFechaAltaBetween(Rol rol, LocalDate desde, LocalDate hasta);
+
+    long countByRolAndActivoTrue(Rol rol);
 
     boolean existsByEmailAndIdNot(String email, Long id);
 

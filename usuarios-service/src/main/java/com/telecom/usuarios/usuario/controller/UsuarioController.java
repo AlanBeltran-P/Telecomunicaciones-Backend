@@ -1,7 +1,9 @@
 package com.telecom.usuarios.usuario.controller;
 
+import com.telecom.seguridad.SeguridadJwt;
 import com.telecom.usuarios.usuario.dto.CambiarRolRequest;
 import com.telecom.usuarios.usuario.dto.CrearUsuarioRequest;
+import com.telecom.usuarios.usuario.dto.PerfilResponse;
 import com.telecom.usuarios.usuario.dto.UsuarioResponse;
 import com.telecom.usuarios.usuario.entity.Usuario;
 import com.telecom.usuarios.usuario.mapper.UsuarioMapper;
@@ -36,6 +38,12 @@ public class UsuarioController {
     @ResponseStatus(HttpStatus.CREATED)
     public UsuarioResponse crear(@Valid @RequestBody CrearUsuarioRequest request) {
         return usuarioMapper.aUsuarioResponse(usuarioService.crear(request));
+    }
+
+    // Cualquier usuario con sesión ve sus propios datos (ver SecurityConfig)
+    @GetMapping("/yo")
+    public PerfilResponse verMiPerfil(@AuthenticationPrincipal Jwt usuario) {
+        return usuarioMapper.aPerfilResponse(usuarioService.buscarPorId(SeguridadJwt.usuarioId(usuario)));
     }
 
     @GetMapping
