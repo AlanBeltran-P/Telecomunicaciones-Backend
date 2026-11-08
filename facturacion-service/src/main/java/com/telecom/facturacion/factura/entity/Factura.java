@@ -51,6 +51,14 @@ public class Factura {
     @Column(nullable = false)
     private EstadoFactura estado;
 
+    private LocalDate fechaPago;
+
+    @Enumerated(EnumType.STRING)
+    private MedioDePago medioDePago;
+
+    // Identificador del cobro en el proveedor, para conciliar o reclamar
+    private String referenciaDePago;
+
     protected Factura() {
         // Requerido por JPA
     }
@@ -73,6 +81,17 @@ public class Factura {
         this.fechaEmision = fechaEmision;
         this.fechaVencimiento = fechaVencimiento;
         this.estado = EstadoFactura.PENDIENTE;
+    }
+
+    public boolean estaPagada() {
+        return estado == EstadoFactura.PAGADA;
+    }
+
+    public void registrarPago(MedioDePago medio, String referencia, LocalDate fecha) {
+        this.estado = EstadoFactura.PAGADA;
+        this.medioDePago = medio;
+        this.referenciaDePago = referencia;
+        this.fechaPago = fecha;
     }
 
     public Long getId() {
@@ -113,5 +132,17 @@ public class Factura {
 
     public EstadoFactura getEstado() {
         return estado;
+    }
+
+    public LocalDate getFechaPago() {
+        return fechaPago;
+    }
+
+    public MedioDePago getMedioDePago() {
+        return medioDePago;
+    }
+
+    public String getReferenciaDePago() {
+        return referenciaDePago;
     }
 }
