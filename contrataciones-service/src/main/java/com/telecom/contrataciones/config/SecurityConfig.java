@@ -32,6 +32,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/instalaciones/pendientes").hasRole("EMPLEADO")
                         .requestMatchers(HttpMethod.PUT, "/api/instalaciones/*/tecnico").hasRole("EMPLEADO")
                         .requestMatchers("/api/instalaciones/mias").hasRole("TECNICO")
+                        .requestMatchers("/api/instalaciones/realizadas").hasRole("TECNICO")
                         // Solo otros microservicios; el Gateway no expone estas rutas
                         .requestMatchers("/api/internos/**").hasRole(TokenDeServicio.ROL)
                         .requestMatchers(HttpMethod.PUT, "/api/instalaciones/*/realizada").hasRole("TECNICO")

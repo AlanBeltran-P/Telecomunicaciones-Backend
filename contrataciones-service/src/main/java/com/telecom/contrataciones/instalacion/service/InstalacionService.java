@@ -44,6 +44,12 @@ public class InstalacionService {
                 tecnicoId, EstadoContratacion.PENDIENTE_INSTALACION);
     }
 
+    // Historial del técnico: las que ya instaló, la más reciente primero
+    @Transactional(readOnly = true)
+    public List<Contratacion> listarRealizadasDelTecnico(Long tecnicoId) {
+        return contratacionRepository.findByTecnicoIdAndFechaInstalacionIsNotNullOrderByFechaInstalacionDesc(tecnicoId);
+    }
+
     // Solo el técnico asignado puede marcarla como realizada
     @Transactional
     public Contratacion marcarRealizada(Long contratacionId, Long tecnicoId) {
