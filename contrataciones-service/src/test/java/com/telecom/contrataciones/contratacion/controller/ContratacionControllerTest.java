@@ -3,6 +3,7 @@ package com.telecom.contrataciones.contratacion.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -143,6 +144,32 @@ class ContratacionControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(cuerpo(1L)))
                 .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void elClienteVeSoloSusContrataciones() throws Exception {
+        contratar(1L);
+        contratacionRepository.save(new Contratacion(
+                20L, 2L, "Telefonía fija", new BigDecimal("5000"), "Belgrano 55", LocalDate.now()));
+
+        mockMvc.perform(get("/api/contrataciones/mias").with(comoCliente()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].clienteId").value(CLIENTE_ID))
+                .andExpect(jsonPath("$[0].planNombre").value("Internet 300 MB"))
+                .andExpect(jsonPath("$[0].estado").value("PENDIENTE_INSTALACION"));
+    }
+
+    @Test
+    void unEmpleadoNoVeContratacionesComoSiFueranSuyas() throws Exception {
+        mockMvc.perform(get("/api/contrataciones/mias")
+                        .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_EMPLEADO"))))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void verMisContratacionesSinSesionResponde401() throws Exception {
+        mockMvc.perform(get("/api/contrataciones/mias")).andExpect(status().isUnauthorized());
     }
 
     private ResultActions contratar(Long planId) throws Exception {
