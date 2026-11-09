@@ -40,6 +40,13 @@ public class InstalacionController {
                 instalacionService.listarDelTecnico(SeguridadJwt.usuarioId(tecnico)));
     }
 
+    // Historial del técnico: las instalaciones que ya hizo
+    @GetMapping("/realizadas")
+    public List<InstalacionResponse> listarRealizadas(@AuthenticationPrincipal Jwt tecnico) {
+        return instalacionMapper.aInstalacionResponses(
+                instalacionService.listarRealizadasDelTecnico(SeguridadJwt.usuarioId(tecnico)));
+    }
+
     @PutMapping("/{contratacionId}/realizada")
     public InstalacionResponse marcarRealizada(
             @PathVariable Long contratacionId,

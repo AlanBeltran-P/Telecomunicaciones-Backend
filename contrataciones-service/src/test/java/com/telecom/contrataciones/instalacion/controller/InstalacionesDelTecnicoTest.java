@@ -51,6 +51,27 @@ class InstalacionesDelTecnicoTest {
     }
 
     @Test
+    void elTecnicoVeSuHistorialConLaMasRecientePrimero() throws Exception {
+        guardarAsignadaA(TECNICO_ID, "Pendiente");
+        guardarAsignadaA(TECNICO_ID, "Internet 300 MB").marcarInstalada(LocalDate.now().minusDays(3));
+        guardarAsignadaA(TECNICO_ID, "TV").marcarInstalada(LocalDate.now());
+        guardarAsignadaA(OTRO_TECNICO_ID, "Telefonía fija").marcarInstalada(LocalDate.now());
+
+        mockMvc.perform(get("/api/instalaciones/realizadas").with(comoTecnico(TECNICO_ID)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2))
+                .andExpect(jsonPath("$[0].planNombre").value("TV"))
+                .andExpect(jsonPath("$[1].planNombre").value("Internet 300 MB"));
+    }
+
+    @Test
+    void unEmpleadoNoVeElHistorialDeUnTecnico() throws Exception {
+        mockMvc.perform(get("/api/instalaciones/realizadas")
+                        .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_EMPLEADO"))))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     void elTecnicoMarcaUnaInstalacionComoRealizadaYElServicioQuedaActivo() throws Exception {
         Contratacion contratacion = guardarAsignadaA(TECNICO_ID, "Internet 300 MB");
 
