@@ -67,7 +67,7 @@ Tests: `./mvnw test` (usan H2; no hace falta PostgreSQL ni levantar nada).
 | Administrador | `POST/PUT/DELETE /api/planes`, `GET/POST /api/usuarios`, `PUT /api/usuarios/{id}/rol`, `PUT /api/usuarios/{id}/desactivar`, `GET /api/usuarios/reporte`, `GET /api/contrataciones/reporte`, `GET /api/facturas/reporte` |
 | Empleado | `/api/clientes` (alta, búsqueda, edición), `GET /api/tecnicos`, `POST/GET /api/contrataciones/clientes/{clienteId}`, `PUT /api/contrataciones/{id}/baja`, `GET /api/instalaciones/pendientes`, `PUT /api/instalaciones/{id}/tecnico`, `GET /api/contrataciones/suspendidas`, `PUT /api/contrataciones/{id}/reactivacion` |
 | Técnico | `GET /api/instalaciones/mias`, `PUT /api/instalaciones/{id}/realizada` |
-| Cliente | `POST /api/contrataciones`, `GET /api/facturas/mias`, `POST /api/facturas/{id}/pagos`, `GET/PUT/DELETE /api/facturas/debito-automatico`, `GET /api/notificaciones/mias`, `PUT /api/notificaciones/{id}/leida` |
+| Cliente | `POST /api/contrataciones`, `GET /api/contrataciones/mias`, `GET /api/facturas/mias`, `POST /api/facturas/{id}/pagos`, `GET/PUT/DELETE /api/facturas/debito-automatico`, `GET /api/notificaciones/mias`, `PUT /api/notificaciones/{id}/leida` |
 
 Los errores devuelven `ProblemDetail` en el idioma de `Accept-Language` (`es` por defecto, `en`).
 

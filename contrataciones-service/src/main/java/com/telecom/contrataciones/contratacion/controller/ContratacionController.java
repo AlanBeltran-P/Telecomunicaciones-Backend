@@ -41,6 +41,13 @@ public class ContratacionController {
                 contratacionService.contratar(SeguridadJwt.usuarioId(cliente), request));
     }
 
+    // El cliente ve sus contrataciones: su id sale del token
+    @GetMapping("/mias")
+    public List<ContratacionResponse> listarMias(@AuthenticationPrincipal Jwt cliente) {
+        return contratacionMapper.aContratacionResponses(
+                contratacionService.listarDelCliente(SeguridadJwt.usuarioId(cliente)));
+    }
+
     // Un empleado le asigna un plan a un cliente (en sucursal o por teléfono)
     @PostMapping("/clientes/{clienteId}")
     @ResponseStatus(HttpStatus.CREATED)
